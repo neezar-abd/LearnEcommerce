@@ -37,7 +37,7 @@ export default async function ProductDetailPage({
   };
 
   // Cari rentang harga termurah - termahal (karena 1 produk bs banyak varian ukuran/warna)
-  const prices = product.variants.map(v => v.price);
+  const prices = product.variants.map(v => Number(v.price));
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
   const priceDisplay = minPrice === maxPrice 

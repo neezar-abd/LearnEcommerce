@@ -251,7 +251,7 @@ export default async function SellerPage() {
                        </div>
 
                        <div className="col-span-2 flex items-center font-medium">
-                         {formatRupiah(product.variants[0]?.price || 0)}
+                         {formatRupiah(Number(product.variants[0]?.price || 0))}
                        </div>
 
                        <div className="col-span-2 flex items-center">
