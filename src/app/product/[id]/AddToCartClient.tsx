@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, Minus, Plus } from 'lucide-react'
 import { addToCart } from '@/app/actions/cart'
 import { useRouter } from 'next/navigation'
 import WishlistButton from '@/components/WishlistButton'
@@ -19,6 +19,7 @@ export default function AddToCartClient({ variants, productId, productName }: { 
   const [selectedVariant, setSelectedVariant] = useState<Variant>(variants[0])
   const [quantity, setQuantity] = useState<number>(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [isBuyNowLoading, setIsBuyNowLoading] = useState(false)
 
   const formatRupiah = (price: number) => {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
@@ -47,6 +48,23 @@ export default function AddToCartClient({ variants, productId, productName }: { 
     } else {
       alert('Berhasil ditambahkan ke keranjang! 🛒')
       router.refresh() // merefresh count keranjang di header
+    }
+  }
+
+  const handleBuyNow = async () => {
+    if (selectedVariant.stock < 1) {
+      alert("Stok barang ini sedang habis!")
+      return
+    }
+
+    setIsBuyNowLoading(true)
+    const result = await addToCart(selectedVariant.id, quantity)
+    setIsBuyNowLoading(false)
+
+    if (result?.error) {
+      alert(result.error)
+    } else {
+      router.push('/checkout')
     }
   }
 
@@ -83,15 +101,27 @@ export default function AddToCartClient({ variants, productId, productName }: { 
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-0">
           <span className="md:w-24 text-gray-500">Kuantitas</span>
           <div className="flex items-center gap-4">
-            <div className="flex items-center border border-gray-300 rounded-sm">
-              <button onClick={handleDecrease} className="px-3 py-1 border-r border-gray-300 hover:bg-gray-50 w-8 md:w-auto">-</button>
+            <div className="flex items-center border border-gray-300 rounded-sm overflow-hidden">
+              <button 
+                type="button" 
+                onClick={handleDecrease} 
+                className="px-3 py-2 border-r border-gray-300 hover:bg-gray-50 w-10 flex items-center justify-center text-gray-600 hover:text-[#EE4D2D] transition-colors"
+              >
+                <Minus className="w-3 h-3" />
+              </button>
               <input 
                 type="text" 
                 value={quantity} 
                 readOnly 
-                className="w-12 text-center outline-none bg-white" 
+                className="w-12 text-center outline-none bg-white text-sm text-[#EE4D2D] font-bold" 
               />
-              <button onClick={handleIncrease} className="px-3 py-1 border-l border-gray-300 hover:bg-gray-50 w-8 md:w-auto">+</button>
+              <button 
+                type="button" 
+                onClick={handleIncrease} 
+                className="px-3 py-2 border-l border-gray-300 hover:bg-gray-50 w-10 flex items-center justify-center text-gray-600 hover:text-[#EE4D2D] transition-colors"
+              >
+                <Plus className="w-3 h-3" />
+              </button>
             </div>
             <span className="text-gray-500">Tersisa {selectedVariant.stock} buah</span>
           </div>
@@ -100,15 +130,21 @@ export default function AddToCartClient({ variants, productId, productName }: { 
 
       <div className="flex gap-3 mt-auto flex-wrap">
         <button 
+          type="button"
           onClick={handleAddToCart}
-          disabled={isLoading || selectedVariant.stock === 0}
+          disabled={isLoading || isBuyNowLoading || selectedVariant.stock === 0}
           className="flex-1 md:flex-none border border-[#EE4D2D] bg-[#FFEEEE] text-[#EE4D2D] px-6 py-3 rounded-sm flex items-center justify-center gap-2 hover:bg-[#FFDEDE] disabled:opacity-50"
         >
           <ShoppingCart className="w-5 h-5" />
           {isLoading ? 'Menambahkan...' : 'Masukkan Keranjang'}
         </button>
-        <button disabled={selectedVariant.stock === 0} className="flex-1 md:flex-none bg-[#EE4D2D] text-white px-10 py-3 rounded-sm hover:bg-[#D73510] disabled:opacity-50">
-          Beli Sekarang
+        <button 
+          type="button"
+          onClick={handleBuyNow}
+          disabled={isBuyNowLoading || isLoading || selectedVariant.stock === 0}
+          className="flex-1 md:flex-none bg-[#EE4D2D] text-white px-10 py-3 rounded-sm hover:bg-[#D73510] disabled:opacity-50 transition-colors"
+        >
+          {isBuyNowLoading ? 'Memproses...' : 'Beli Sekarang'}
         </button>
         <WishlistButton productId={productId} productName={productName} />
       </div>
