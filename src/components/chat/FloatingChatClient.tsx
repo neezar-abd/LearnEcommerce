@@ -47,7 +47,7 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-0 right-10 bg-white border border-gray-200 text-[#7C3AED] px-6 py-2.5 rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,0.1)] hover:bg-gray-50 transition-all duration-300 z-50 flex items-center justify-center gap-2 font-medium"
+        className="fixed bottom-0 right-4 md:right-10 bg-white border border-gray-200 text-[#7C3AED] px-4 md:px-6 py-2.5 rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,0.1)] hover:bg-gray-50 transition-all duration-300 z-50 flex items-center justify-center gap-2 font-medium"
       >
         <MessageSquare className="w-5 h-5 fill-[#7C3AED]" /> Chat
       </button>
@@ -59,7 +59,7 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
   const activeName = activeConv ? (activeConv.store.profileId === currentProfileId ? activeConv.buyer.name : activeConv.store.name) : ''
 
   return (
-    <div className="fixed bottom-0 right-10 w-[700px] h-[500px] bg-white shadow-[0_-5px_20px_rgba(0,0,0,0.15)] rounded-t-md z-50 flex flex-col border border-gray-200 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-200 origin-bottom">
+    <div className="fixed bottom-0 right-0 md:right-10 w-full md:w-[700px] h-[85dvh] md:h-[500px] bg-white shadow-[0_-5px_20px_rgba(0,0,0,0.15)] rounded-t-xl md:rounded-t-md z-50 flex flex-col border border-gray-200 overflow-hidden animate-in slide-in-from-bottom-5 fade-in duration-200 origin-bottom">
       
       {/* Top Header — Chat window expands from the floating button */}
       
@@ -67,7 +67,7 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
       <div className="flex flex-1 overflow-hidden">
         
         {/* Left: Conversation List */}
-        <div className="w-[280px] border-r border-gray-200 bg-white flex flex-col">
+        <div className={`w-full md:w-[280px] border-r border-gray-200 bg-white flex-col ${activeConversationId ? 'hidden md:flex' : 'flex'}`}>
           {/* Header Left */}
           <div className="px-3 py-2 border-b border-gray-200 flex items-center gap-2 bg-white">
             <div className="flex-1 flex items-center border border-gray-300 rounded-sm px-2 py-1.5 focus-within:border-[#7C3AED] transition-colors">
@@ -119,7 +119,7 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
         </div>
 
         {/* Right: Active Chat */}
-        <div className="flex-1 bg-[#f5f5f5] flex flex-col relative">
+        <div className={`flex-1 bg-[#f5f5f5] flex-col relative ${activeConversationId ? 'flex' : 'hidden md:flex'}`}>
           {isLoading ? (
              <div className="flex-1 flex items-center justify-center text-gray-400 text-sm">
                Memuat...
@@ -127,10 +127,18 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
           ) : activeConversationId ? (
             <>
               {/* Active Chat Header */}
-              <div className="h-[44px] px-4 flex items-center justify-between bg-white border-b border-gray-200 flex-shrink-0 z-10 shadow-sm">
-                <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-sm transition">
-                  <h3 className="font-medium text-gray-800 text-[14px]">{activeName}</h3>
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
+              <div className="h-[44px] px-2 md:px-4 flex items-center justify-between bg-white border-b border-gray-200 flex-shrink-0 z-10 shadow-sm">
+                <div className="flex items-center gap-1 md:gap-2">
+                  <button 
+                    onClick={() => setActiveConversationId(null)} 
+                    className="md:hidden p-1.5 text-gray-500 hover:bg-gray-100 rounded-md flex items-center justify-center"
+                  >
+                    <ChevronDown className="w-5 h-5 rotate-90" />
+                  </button>
+                  <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-sm transition">
+                    <h3 className="font-medium text-gray-800 text-[14px]">{activeName}</h3>
+                    <ChevronDown className="w-4 h-4 text-gray-400 hidden md:block" />
+                  </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <button onClick={() => setIsOpen(false)} className="flex items-center gap-1 text-gray-500 hover:text-[#7C3AED] text-[13px] transition-colors">

@@ -82,7 +82,7 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
 
           {userProfile ? (
             <div className="relative group flex items-center gap-4">
-              <div className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-50 transition-colors duration-200">
+              <a href="/buyer/profile" className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-50 transition-colors duration-200">
                 <div className="w-8 h-8 bg-[#FAF5FF] rounded-full flex items-center justify-center text-[#7C3AED] overflow-hidden transition-transform duration-300 group-hover:scale-105">
                   {userProfile.avatarUrl ? (
                     <img src={userProfile.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -91,7 +91,7 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
                   )}
                 </div>
                 <span className="font-medium text-sm text-gray-700 group-hover:text-[#7C3AED] transition-colors hidden md:block">{userProfile.name || 'penjual'}</span>
-              </div>
+              </a>
               
               <a href="/seller" className="hidden md:flex items-center justify-center px-4 py-1.5 border border-[#7C3AED] text-[#7C3AED] text-sm font-semibold rounded-md hover:bg-[#7C3AED] hover:text-white transition-all duration-300 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20">
                 Buka Toko
