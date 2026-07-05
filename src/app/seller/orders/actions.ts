@@ -119,8 +119,6 @@ export async function generateResiAction(orderId: string): Promise<{ success?: b
       // Courier
       courierCompany: company,
       courierType: type,
-      courierInsurance: totalValue > 500000 ? totalValue : 0,
-      
       // Parcel
       weightGrams: totalWeight,
       itemName: itemNames.substring(0, 100),

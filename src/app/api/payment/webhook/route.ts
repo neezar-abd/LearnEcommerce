@@ -110,11 +110,10 @@ export async function POST(request: NextRequest) {
             destPostalCode: order.address.postalCode || order.address.cityId || '10000',
             courierCompany: company,
             courierType: type,
-            courierInsurance: totalValue > 500000 ? totalValue : 0,
+            itemValue: totalValue,
             weightGrams: totalWeight,
             itemName: itemNames.substring(0, 100),
             itemQty: order.orderItems.reduce((acc, i) => acc + i.quantity, 0),
-            itemValue: totalValue,
             referenceId: order.id,
           })
 
