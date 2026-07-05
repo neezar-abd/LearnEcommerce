@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
-import { Search, ShoppingCart, Bell, Mail, User } from 'lucide-react';
+import { Search, ShoppingCart, Mail, User } from 'lucide-react';
 import prisma from '@/lib/prisma';
+import NotificationDropdown from './NotificationDropdown';
 
 export default async function Navbar({ searchQuery }: { searchQuery?: string }) {
   const supabase = await createClient();
@@ -66,13 +67,9 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
                 </span>
               )}
             </a>
-            <a href="/notifications" className="relative p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95 hidden md:block">
-              <Bell className="w-6 h-6" />
-              {/* Badge for notification */}
-              <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
-                1
-              </span>
-            </a>
+            {userProfile ? (
+              <NotificationDropdown profileId={userProfile.id} />
+            ) : null}
             <a href="/messages" className="p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95 hidden md:block">
               <Mail className="w-6 h-6" />
             </a>

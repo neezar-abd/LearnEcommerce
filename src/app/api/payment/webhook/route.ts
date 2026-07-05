@@ -86,6 +86,18 @@ export async function POST(request: NextRequest) {
         }
       })
 
+      // NOTIFICATIONS
+      // 1. Notify Buyer
+      await prisma.notification.create({
+        data: {
+          profileId: transaction.profileId,
+          type: 'ORDER_UPDATE',
+          title: 'Pembayaran Berhasil! 🎉',
+          message: `Pembayaran untuk transaksi ${order_id.substring(0, 8)} telah berhasil. Pesananmu sedang diproses oleh penjual.`,
+          link: '/buyer/orders',
+        }
+      });
+
       for (const order of ordersToShip) {
         if (!order.store.cityId || !order.address.cityId || !order.shippingCourier) {
           console.warn(`Skipping auto-resi for order ${order.id}: Missing cityId or courier data`)
@@ -130,6 +142,17 @@ export async function POST(request: NextRequest) {
           console.error(`Failed to auto-generate resi for order ${order.id}:`, err.message)
           // Status remains PACKING, seller can generate manually
         }
+        
+        // 2. Notify Seller
+        await prisma.notification.create({
+          data: {
+            profileId: order.store.profileId,
+            type: 'NEW_ORDER',
+            title: 'Pesanan Baru Masuk! 📦',
+            message: `Hore! Ada pesanan baru dari ${order.address.receiverName}. Segera proses dan kirim ya.`,
+            link: '/seller/orders',
+          }
+        });
       }
 
     } else if (isFailed) {
