@@ -78,7 +78,10 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
                 className="w-full text-sm outline-none bg-transparent"
               />
             </div>
-            <button className="flex items-center gap-1 text-[13px] text-gray-600 hover:text-gray-800 font-medium">
+            <button onClick={() => setIsOpen(false)} className="md:hidden p-1.5 text-gray-500 hover:bg-gray-100 rounded-md flex items-center justify-center">
+              <ChevronDown className="w-5 h-5" />
+            </button>
+            <button className="hidden md:flex items-center gap-1 text-[13px] text-gray-600 hover:text-gray-800 font-medium">
               Semua <ChevronDown className="w-4 h-4" />
             </button>
           </div>
@@ -153,7 +156,12 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
               </div>
             </>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center h-full text-center bg-gray-50/50">
+            <div className="flex-1 flex flex-col items-center justify-center h-full text-center bg-gray-50/50 relative">
+              <div className="absolute top-0 right-0 p-3">
+                <button onClick={() => setIsOpen(false)} className="flex items-center gap-1 text-gray-500 hover:text-[#7C3AED] text-[13px] transition-colors">
+                  Tutup <ChevronUp className="w-4 h-4" />
+                </button>
+              </div>
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-3">
                 <MessageSquare className="w-8 h-8 text-gray-400" />
               </div>
