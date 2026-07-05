@@ -16,7 +16,7 @@ export default async function LoginPage({
       <header className="bg-white px-4 md:px-12 py-4 flex items-center shadow-sm">
         <a href="/" className="flex items-center gap-2 cursor-pointer">
           <div className="w-10 h-10 bg-[#7C3AED] rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-2xl">U</span>
+            <span className="text-white font-bold text-2xl">L</span>
           </div>
           <span className="font-bold text-2xl tracking-tight text-[#7C3AED]">LokaBeli</span>
           <span className="text-2xl font-medium text-gray-800 ml-2">Log in</span>
@@ -29,7 +29,7 @@ export default async function LoginPage({
         {/* Left Branding (Hidden on Mobile) */}
         <div className="hidden md:flex flex-col text-white max-w-[500px]">
           <div className="w-20 h-20 shadow-lg bg-white rounded-full flex items-center justify-center mb-6">
-            <span className="text-[#7C3AED] font-bold text-5xl">U</span>
+            <span className="text-[#7C3AED] font-bold text-5xl">L</span>
           </div>
           <h1 className="text-5xl font-bold mb-4 leading-tight">Belanja Mudah,<br/>Aman, dan Cepat</h1>
           <p className="text-lg text-white/90">Bergabung dengan jutaan pengguna lainnya di LokaBeli hari ini. Jual beli jadi lebih gampang!</p>
