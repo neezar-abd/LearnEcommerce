@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import crypto from 'crypto'
 import { createBiteshipOrder, parseCourierString } from '@/lib/biteship'
+import { sendOrderReceipt, sendSellerNotification, getUserEmailByProfileId } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -97,6 +98,25 @@ export async function POST(request: NextRequest) {
           link: '/buyer/orders',
         }
       });
+      
+      const buyerEmail = await getUserEmailByProfileId(transaction.profileId);
+      if (buyerEmail) {
+        const receiptItems = ordersToShip.flatMap(o => 
+          o.orderItems.map(i => ({ 
+            name: i.productName, 
+            quantity: i.quantity, 
+            price: `Rp ${Number(i.price).toLocaleString('id-ID')}` 
+          }))
+        );
+        
+        await sendOrderReceipt({
+          to: buyerEmail,
+          orderId: order_id.substring(0, 8),
+          buyerName: transaction.profile.name,
+          totalAmount: `Rp ${Number(transaction.totalAmount).toLocaleString('id-ID')}`,
+          items: receiptItems
+        });
+      }
 
       for (const order of ordersToShip) {
         if (!order.store.cityId || !order.address.cityId || !order.shippingCourier) {
@@ -153,6 +173,22 @@ export async function POST(request: NextRequest) {
             link: '/seller/orders',
           }
         });
+        
+        const sellerEmail = await getUserEmailByProfileId(order.store.profileId);
+        if (sellerEmail) {
+          const sellerItems = order.orderItems.map(i => ({
+            name: i.productName,
+            quantity: i.quantity
+          }));
+          
+          await sendSellerNotification({
+            to: sellerEmail,
+            orderId: order_id.substring(0, 8),
+            sellerName: order.store.name,
+            buyerName: order.address.receiverName,
+            items: sellerItems
+          });
+        }
       }
 
     } else if (isFailed) {
