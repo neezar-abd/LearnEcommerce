@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     // ─────────────────────────────────────────────
     const transaction = await prisma.transaction.findUnique({
       where: { id: order_id },
-      include: { orders: { include: { store: true } } }
+      include: { profile: true, orders: { include: { store: true } } }
     })
 
     if (!transaction) {
