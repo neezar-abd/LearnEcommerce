@@ -11,7 +11,9 @@ import { formatRupiah } from '@/lib/format'
 
 export const revalidate = 0
 
-export default async function BuyerProfilePage() {
+export default async function BuyerProfilePage(props: { searchParams: Promise<{ tab?: string }> }) {
+  const searchParams = await props.searchParams;
+  const tab = searchParams?.tab || 'profile';
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -27,10 +29,6 @@ export default async function BuyerProfilePage() {
   })
 
   if (!profile) redirect('/login')
-
-  const totalSpent = profile.transactions
-    .filter(t => t.paymentStatus === 'PAID')
-    .reduce((acc, t) => acc + Number(t.totalAmount), 0)
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-20">
@@ -64,16 +62,16 @@ export default async function BuyerProfilePage() {
 
             {/* Nav Menu - Horizontal scroll on mobile */}
             <div className="bg-white rounded-sm shadow-sm border border-gray-100 text-sm flex md:flex-col overflow-x-auto md:overflow-visible">
-              <a href="/buyer/profile" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-[#7C3AED] font-semibold bg-teal-50 border-b-2 md:border-b-0 md:border-l-2 border-[#7C3AED] whitespace-nowrap">
+              <a href="/buyer/profile?tab=profile" className={`flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 whitespace-nowrap border-b-2 md:border-b-0 md:border-l-2 ${tab === 'profile' ? 'text-[#7C3AED] font-semibold bg-[#FAF5FF] border-[#7C3AED]' : 'text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 border-transparent md:border-l-transparent'}`}>
                 <User className="w-4 h-4 hidden md:block" /> Akun Saya
               </a>
-              <a href="/buyer/profile#addresses" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
+              <a href="/buyer/profile?tab=addresses" className={`flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 whitespace-nowrap border-b-2 md:border-b-0 md:border-l-2 ${tab === 'addresses' ? 'text-[#7C3AED] font-semibold bg-[#FAF5FF] border-[#7C3AED]' : 'text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 border-transparent md:border-l-transparent'}`}>
                 <MapPin className="w-4 h-4 hidden md:block" /> Alamat Saya
               </a>
-              <a href="/buyer/orders" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
+              <a href="/buyer/orders" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent md:border-l-2 md:border-l-transparent">
                 <Star className="w-4 h-4 hidden md:block" /> Pesanan Saya
               </a>
-              <a href="/buyer/wishlist" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
+              <a href="/buyer/wishlist" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent md:border-l-2 md:border-l-transparent">
                 <Star className="w-4 h-4 hidden md:block" /> Wishlist
               </a>
             </div>
@@ -82,24 +80,9 @@ export default async function BuyerProfilePage() {
           {/* --- MAIN CONTENT --- */}
           <div className="flex-1 flex flex-col gap-6 min-w-0">
 
-            {/* STATS ROW */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-3 md:p-4 text-center">
-                <div className="text-xl md:text-2xl font-bold text-[#7C3AED]">{profile.transactions.length}</div>
-                <div className="text-[10px] md:text-xs text-gray-500 mt-1">Total Transaksi</div>
-              </div>
-              <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-3 md:p-4 text-center">
-                <div className="text-xl md:text-2xl font-bold text-[#7C3AED]">{profile.addresses.length}</div>
-                <div className="text-[10px] md:text-xs text-gray-500 mt-1">Alamat Tersimpan</div>
-              </div>
-              <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-3 md:p-4 text-center">
-                <div className="text-xs md:text-sm font-bold text-[#7C3AED] break-all leading-tight">{formatRupiah(totalSpent)}</div>
-                <div className="text-[10px] md:text-xs text-gray-500 mt-1">Total Belanja</div>
-              </div>
-            </div>
-
+            {tab === 'profile' && (
             {/* EDIT PROFILE */}
-            <div id="edit-profile" className="bg-white rounded-sm shadow-sm border border-gray-100">
+            <div className="bg-white rounded-sm shadow-sm border border-gray-100">
               <div className="border-b border-gray-100 px-4 md:px-6 py-4">
                 <h2 className="text-base font-semibold text-gray-800">Profil Saya</h2>
                 <p className="text-xs text-gray-400 mt-0.5">Kelola informasi profil untuk keamanan akunmu</p>
@@ -143,9 +126,11 @@ export default async function BuyerProfilePage() {
                 </div>
               </form>
             </div>
+            )}
 
+            {tab === 'addresses' && (
             {/* ADDRESS MANAGEMENT */}
-            <div id="addresses" className="bg-white rounded-sm shadow-sm border border-gray-100">
+            <div className="bg-white rounded-sm shadow-sm border border-gray-100">
               <div className="border-b border-gray-100 px-4 md:px-6 py-4">
                 <h2 className="text-base font-semibold text-gray-800">Alamat Saya</h2>
                 <p className="text-xs text-gray-400 mt-0.5">Kelola alamat pengirimanmu</p>
@@ -214,6 +199,7 @@ export default async function BuyerProfilePage() {
                 </form>
               </div>
             </div>
+            )}
 
           </div>
         </div>
