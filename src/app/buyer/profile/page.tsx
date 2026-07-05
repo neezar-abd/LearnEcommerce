@@ -81,8 +81,8 @@ export default async function BuyerProfilePage(props: { searchParams: Promise<{ 
           <div className="flex-1 flex flex-col gap-6 min-w-0">
 
             {tab === 'profile' && (
-            {/* EDIT PROFILE */}
             <div className="bg-white rounded-sm shadow-sm border border-gray-100">
+              {/* EDIT PROFILE */}
               <div className="border-b border-gray-100 px-4 md:px-6 py-4">
                 <h2 className="text-base font-semibold text-gray-800">Profil Saya</h2>
                 <p className="text-xs text-gray-400 mt-0.5">Kelola informasi profil untuk keamanan akunmu</p>
@@ -129,8 +129,8 @@ export default async function BuyerProfilePage(props: { searchParams: Promise<{ 
             )}
 
             {tab === 'addresses' && (
-            {/* ADDRESS MANAGEMENT */}
             <div className="bg-white rounded-sm shadow-sm border border-gray-100">
+              {/* ADDRESS MANAGEMENT */}
               <div className="border-b border-gray-100 px-4 md:px-6 py-4">
                 <h2 className="text-base font-semibold text-gray-800">Alamat Saya</h2>
                 <p className="text-xs text-gray-400 mt-0.5">Kelola alamat pengirimanmu</p>
