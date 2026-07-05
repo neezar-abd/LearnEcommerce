@@ -4,6 +4,7 @@ import { useState, useTransition, useOptimistic } from 'react'
 import { Store, Trash2, ShoppingCart, Minus, Plus, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { updateCartItemQty, deleteCartItem, toggleCartItemSelected, selectAllCartItems } from './actions'
+import { formatRupiah } from '@/lib/format'
 
 interface CartItemData {
   id: string
@@ -26,10 +27,6 @@ interface CartItemData {
 interface CartClientProps {
   initialItems: CartItemData[]
 }
-
-const formatRupiah = (n: number) =>
-  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n)
-
 export default function CartClient({ initialItems }: CartClientProps) {
   const [items, setItems] = useState(initialItems)
   const [pendingIds, setPendingIds] = useState<Set<string>>(new Set())
@@ -106,7 +103,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
         </div>
         <h2 className="text-xl font-medium text-gray-800 mb-2">Keranjang belanjamu kosong</h2>
         <p className="text-gray-500 mb-6">Mungkin ini saat yang tepat untuk mencari produk impianmu!</p>
-        <a href="/" className="bg-[#EE4D2D] text-white px-10 py-3 rounded-sm font-medium inline-block hover:bg-[#D73510]">
+        <a href="/" className="bg-[#7C3AED] text-white px-10 py-3 rounded-md font-medium inline-block hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20">
           Mulai Belanja
         </a>
       </div>
@@ -120,7 +117,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
         <div className="w-[45%] flex gap-4 items-center">
           <input
             type="checkbox"
-            className="w-4 h-4 accent-[#EE4D2D] cursor-pointer"
+            className="w-4 h-4 accent-[#7C3AED] cursor-pointer"
             checked={allSelected}
             onChange={handleSelectAll}
           />
@@ -152,7 +149,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
               <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 accent-[#EE4D2D] cursor-pointer"
+                  className="w-4 h-4 accent-[#7C3AED] cursor-pointer"
                   checked={storeAllSelected}
                   onChange={handleStoreSelectAll}
                 />
@@ -162,13 +159,13 @@ export default function CartClient({ initialItems }: CartClientProps) {
 
               {/* Items */}
               {group.items.map(item => (
-                <div key={item.id} className={`p-4 flex flex-col md:flex-row md:items-center border-b border-gray-50 last:border-0 transition-opacity ${pendingIds.has(item.id) ? 'opacity-60' : ''}`}>
+                <div key={item.id} className={`p-4 flex flex-col md:flex-row md:items-center border-b border-gray-50 last:border-0 transition-all duration-300 hover:bg-gray-50 ${pendingIds.has(item.id) ? 'opacity-60' : ''}`}>
 
                   {/* Mobile Top Row: Checkbox, Image, Info */}
                   <div className="w-full md:w-[45%] flex gap-3 md:gap-4 items-start">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-[#EE4D2D] mt-2 cursor-pointer flex-shrink-0"
+                      className="w-4 h-4 accent-[#7C3AED] mt-2 cursor-pointer flex-shrink-0"
                       checked={item.selected}
                       onChange={() => handleToggleSelected(item)}
                     />
@@ -181,7 +178,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <a href={`/product/${item.variant.product.id}`} className="text-sm text-gray-800 hover:text-[#EE4D2D] line-clamp-2 leading-tight md:leading-relaxed">
+                      <a href={`/product/${item.variant.product.id}`} className="text-sm text-gray-800 hover:text-[#7C3AED] line-clamp-2 leading-tight md:leading-relaxed">
                         {item.variant.product.name}
                       </a>
                       <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 mt-1 md:mt-2 rounded border border-gray-100 inline-block">
@@ -202,7 +199,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
                   <div className="w-full md:w-auto flex-1 flex flex-row items-center justify-between mt-4 md:mt-0 ml-7 md:ml-0 gap-2 md:gap-0">
                     
                     {/* Price on mobile, hidden on desktop */}
-                    <div className="md:hidden text-sm text-[#EE4D2D] font-medium">
+                    <div className="md:hidden text-sm text-[#7C3AED] font-medium">
                       {formatRupiah(Number(item.variant.price))}
                     </div>
 
@@ -212,7 +209,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
                         <button
                           onClick={() => handleQtyChange(item, -1)}
                           disabled={pendingIds.has(item.id)}
-                          className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition border-r border-gray-300 disabled:opacity-40"
+                          className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-all active:scale-95 border-r border-gray-300 disabled:opacity-40"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
@@ -222,7 +219,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
                         <button
                           onClick={() => handleQtyChange(item, +1)}
                           disabled={pendingIds.has(item.id) || item.quantity >= item.variant.stock}
-                          className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition border-l border-gray-300 disabled:opacity-40"
+                          className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-all active:scale-95 border-l border-gray-300 disabled:opacity-40"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
@@ -230,7 +227,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
                     </div>
 
                     {/* Total - Hidden on mobile */}
-                    <div className="hidden md:block w-[15%] text-center text-sm font-semibold text-[#EE4D2D]">
+                    <div className="hidden md:block w-[15%] text-center text-sm font-semibold text-[#7C3AED]">
                       {formatRupiah(Number(item.variant.price) * item.quantity)}
                     </div>
 
@@ -238,7 +235,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
                     <div className="md:w-[10%] text-center ml-2 md:ml-0">
                       <button
                         onClick={() => handleDelete(item.id)}
-                        className="text-gray-400 hover:text-red-500 transition flex items-center justify-center text-sm p-1"
+                        className="text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200 active:scale-90 flex items-center justify-center text-sm p-2 rounded-full"
                       >
                         <Trash2 className="w-5 h-5 md:w-4 md:h-4" />
                       </button>
@@ -258,7 +255,7 @@ export default function CartClient({ initialItems }: CartClientProps) {
             <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
               <input
                 type="checkbox"
-                className="w-4 h-4 accent-[#EE4D2D] cursor-pointer"
+                className="w-4 h-4 accent-[#7C3AED] cursor-pointer"
                 checked={allSelected}
                 onChange={handleSelectAll}
               />
@@ -282,12 +279,12 @@ export default function CartClient({ initialItems }: CartClientProps) {
           <div className="flex items-center justify-between w-full md:w-auto md:gap-6 pt-2 md:pt-0 border-t md:border-0 border-gray-100">
             <div className="text-sm text-gray-700 flex flex-col items-start md:items-end">
               <div className="text-xs md:text-sm">Total ({totalQty} produk):</div>
-              <div className="text-[#EE4D2D] font-bold text-lg md:text-2xl transition-all leading-none">{formatRupiah(totalHarga)}</div>
+              <div className="text-[#7C3AED] font-bold text-lg md:text-2xl transition-all leading-none">{formatRupiah(totalHarga)}</div>
             </div>
             <a
               href="/checkout"
-              className={`bg-[#EE4D2D] text-white px-8 md:px-12 py-2.5 md:py-3.5 rounded-sm font-medium hover:bg-[#D73510] text-base md:text-lg text-center shadow-md transition-colors ${
-                selectedItems.length === 0 ? 'pointer-events-none !bg-gray-300' : ''
+              className={`bg-[#7C3AED] text-white px-8 md:px-12 py-2.5 md:py-3.5 rounded-lg font-medium hover:bg-[#6D28D9] text-base md:text-lg text-center shadow-md shadow-[#7C3AED]/20 transition-all duration-200 active:scale-95 ${
+                selectedItems.length === 0 ? 'pointer-events-none !bg-gray-300 shadow-none' : ''
               }`}
             >
               Checkout ({selectedItems.length})

@@ -22,8 +22,9 @@ interface CitySearchProps {
 export default function CitySearch({ name, defaultValue, defaultLabel, placeholder, required }: CitySearchProps) {
   const [query, setQuery] = useState(defaultLabel || '')
   const [results, setResults] = useState<City[]>([])
-  const [loading, setLoading] = useState(false)
   const [selectedId, setSelectedId] = useState(defaultValue || '')
+  const [selectedProvince, setSelectedProvince] = useState('')
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -42,6 +43,7 @@ export default function CitySearch({ name, defaultValue, defaultLabel, placehold
   const handleInput = (value: string) => {
     setQuery(value)
     setSelectedId('') // reset when typing
+    setSelectedProvince('')
 
     if (debounceRef.current) clearTimeout(debounceRef.current)
     if (value.length < 2) {
@@ -67,6 +69,7 @@ export default function CitySearch({ name, defaultValue, defaultLabel, placehold
 
   const handleSelect = (city: City) => {
     setSelectedId(city.city_id)
+    setSelectedProvince(city.province)
     // city_name is already formatted as "Subdistrict, District, City" from our API
     setQuery(`${city.city_name}, ${city.province} ${city.postal_code}`)
     setOpen(false)
@@ -75,8 +78,9 @@ export default function CitySearch({ name, defaultValue, defaultLabel, placehold
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Hidden input that submits the actual city_id */}
+      {/* Hidden input that submits the actual city_id and province */}
       <input type="hidden" name={name} value={selectedId} />
+      <input type="hidden" name={`${name}_province`} value={selectedProvince} />
 
       <div className="relative">
         <input
@@ -86,7 +90,7 @@ export default function CitySearch({ name, defaultValue, defaultLabel, placehold
           onFocus={() => results.length > 0 && setOpen(true)}
           placeholder={placeholder || 'Cari nama kota...'}
           required={required && !selectedId}
-          className="w-full border border-gray-300 rounded-sm px-3 py-2 pr-8 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D]"
+          className="w-full border border-gray-300 rounded-sm px-3 py-2 pr-8 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED]"
           autoComplete="off"
         />
         <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">

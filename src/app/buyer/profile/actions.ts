@@ -35,6 +35,7 @@ export async function addAddressAction(formData: FormData) {
   const fullAddress = formData.get('fullAddress') as string
   const postalCode = formData.get('postalCode') as string
   const cityId = formData.get('cityId') as string | null
+  const province = formData.get('cityId_province') as string | null
   const isPrimary = formData.get('isPrimary') === 'on'
 
   // If this is set as primary, unset others first
@@ -54,6 +55,7 @@ export async function addAddressAction(formData: FormData) {
       fullAddress,
       postalCode,
       cityId: cityId || null,
+      province: province || null,
       isPrimary: isPrimary || false
     }
   })

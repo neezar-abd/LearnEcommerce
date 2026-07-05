@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { calculateShippingPromo, FREE_SHIPPING_CONFIG } from '@/lib/shipping-promo'
 
 // Called from the checkout page form submission
 // shippingData: JSON string of { storeId: { courier: "JNE REG", cost: 15000 } }
@@ -79,6 +80,32 @@ export async function placeOrderAction(formData: FormData) {
 
     // Calculate total
     const productTotal = items.reduce((acc, item) => acc + (Number(item.variant.price) * item.quantity), 0)
+    
+    // Hitung promo gratis ongkir per toko
+    const subsidyByStore: Record<string, number> = {}
+    let totalSubsidy = 0
+
+    for (const storeId of Object.keys(groupedByStore)) {
+      const storeItems = groupedByStore[storeId]
+      const storeSubtotal = storeItems.reduce((acc, item) => acc + (Number(item.variant.price) * item.quantity), 0)
+      const shipping = shippingData[storeId]
+      const store = storeItems[0]?.variant.product.store
+      const buyerAddress = address as any
+
+      if (shipping && store) {
+        const promo = calculateShippingPromo({
+          subtotal: storeSubtotal,
+          shippingCost: shipping.cost,
+          buyerProvince: buyerAddress.province || '',
+          sellerProvince: store.province || '',
+        })
+        subsidyByStore[storeId] = promo.subsidyAmount
+        totalSubsidy += promo.subsidyAmount
+        // Override shipping cost: buyer hanya bayar sisa
+        shippingData[storeId] = { ...shipping, cost: promo.buyerPays }
+      }
+    }
+
     const shippingTotal = Object.values(shippingData).reduce((acc, s) => acc + s.cost, 0)
     const totalAmount = productTotal + shippingTotal
 
@@ -102,6 +129,8 @@ export async function placeOrderAction(formData: FormData) {
         const storeItems = groupedByStore[storeId]
         const storeSubtotal = storeItems.reduce((acc, item) => acc + (Number(item.variant.price) * item.quantity), 0)
         const shipping = shippingData[storeId]
+        const platformFee = Math.round(storeSubtotal * FREE_SHIPPING_CONFIG.PLATFORM_COMMISSION)
+        const subsidy = subsidyByStore[storeId] || 0
 
         await tx.order.create({
           data: {
@@ -111,6 +140,8 @@ export async function placeOrderAction(formData: FormData) {
             subtotal: storeSubtotal,
             shippingCourier: shipping.courier,
             shippingCost: shipping.cost,
+            shippingSubsidy: subsidy,
+            platformFee: platformFee,
             status: 'UNPAID',
             orderItems: {
               create: storeItems.map(item => ({

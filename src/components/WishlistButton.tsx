@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react'
 interface WishlistButtonProps {
   productId: string
   productName: string
+  customClass?: string
 }
 
-export default function WishlistButton({ productId, productName }: WishlistButtonProps) {
+export default function WishlistButton({ productId, productName, customClass }: WishlistButtonProps) {
   const [isWishlisted, setIsWishlisted] = useState(false)
 
   useEffect(() => {
@@ -35,13 +36,13 @@ export default function WishlistButton({ productId, productName }: WishlistButto
     <button
       onClick={toggle}
       title={isWishlisted ? 'Hapus dari Wishlist' : 'Tambah ke Wishlist'}
-      className={`flex items-center gap-2 border rounded-sm px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+      className={customClass ? customClass : `flex items-center gap-2 border rounded-sm px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
         isWishlisted
-          ? 'bg-red-50 border-[#EE4D2D] text-[#EE4D2D]'
-          : 'bg-white border-gray-300 text-gray-600 hover:border-[#EE4D2D] hover:text-[#EE4D2D]'
+          ? 'bg-red-50 border-[#7C3AED] text-[#7C3AED]'
+          : 'bg-white border-gray-300 text-gray-600 hover:border-[#7C3AED] hover:text-[#7C3AED]'
       }`}
     >
-      <Heart className={`w-4 h-4 transition-all ${isWishlisted ? 'fill-[#EE4D2D] text-[#EE4D2D]' : ''}`} />
+      <Heart className={`w-4 h-4 transition-all ${isWishlisted ? 'fill-[#7C3AED] text-[#7C3AED]' : ''}`} />
       {isWishlisted ? 'Diwishlist' : 'Wishlist'}
     </button>
   )

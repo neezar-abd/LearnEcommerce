@@ -40,8 +40,8 @@ export default async function EditProductPage({ params }: { params: { id: string
   return (
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col">
       <header className="bg-white shadow-sm h-14 flex items-center px-6 sticky top-0 z-20 gap-4">
-        <a href="/seller" className="text-gray-500 hover:text-[#EE4D2D] transition"><ArrowLeft className="w-5 h-5"/></a>
-        <div className="flex items-center gap-2 text-[#EE4D2D]">
+        <a href="/seller" className="text-gray-500 hover:text-[#7C3AED] transition"><ArrowLeft className="w-5 h-5"/></a>
+        <div className="flex items-center gap-2 text-[#7C3AED]">
           <Store className="w-5 h-5" />
           <span className="font-medium text-lg tracking-tight">Seller Centre</span>
         </div>
@@ -60,12 +60,12 @@ export default async function EditProductPage({ params }: { params: { id: string
             
             <div className="grid grid-cols-[200px_1fr] items-start gap-4">
               <label className="text-sm font-medium text-gray-700 pt-2 text-right">Nama Produk</label>
-              <input type="text" name="name" defaultValue={product.name} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white" />
+              <input type="text" name="name" defaultValue={product.name} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white" />
             </div>
 
             <div className="grid grid-cols-[200px_1fr] items-start gap-4">
               <label className="text-sm font-medium text-gray-700 pt-2 text-right">Kategori</label>
-              <select name="categoryId" defaultValue={product.categoryId} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white">
+              <select name="categoryId" defaultValue={product.categoryId} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white">
                 {categories.map(cat => (
                   <option key={cat.id} value={cat.id}>{cat.name}</option>
                 ))}
@@ -76,24 +76,24 @@ export default async function EditProductPage({ params }: { params: { id: string
               <label className="text-sm font-medium text-gray-700 pt-2 text-right">Harga</label>
               <div className="relative">
                 <span className="absolute left-3 top-2 text-sm text-gray-500">Rp</span>
-                <input type="number" name="price" defaultValue={product.variants[0]?.price?.toString()} min={0} required className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white" />
+                <input type="number" name="price" defaultValue={product.variants[0]?.price?.toString()} min={0} required className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white" />
               </div>
             </div>
 
             <div className="grid grid-cols-[200px_1fr] items-start gap-4">
               <label className="text-sm font-medium text-gray-700 pt-2 text-right">Stok Produk</label>
-              <input type="number" name="stock" defaultValue={product.variants[0]?.stock} min={0} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white" />
+              <input type="number" name="stock" defaultValue={product.variants[0]?.stock} min={0} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white" />
             </div>
 
             <div className="grid grid-cols-[200px_1fr] items-start gap-4">
               <label className="text-sm font-medium text-gray-700 pt-2 text-right">Deskripsi</label>
-              <textarea name="description" defaultValue={product.description} rows={5} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white resize-none" />
+              <textarea name="description" defaultValue={product.description} rows={5} required className="w-full px-3 py-2 text-sm border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white resize-none" />
             </div>
 
             <div className="grid grid-cols-[200px_1fr] items-start gap-4 pb-6">
               <div></div>
               <div className="flex gap-4">
-                 <button type="submit" className="bg-[#EE4D2D] px-8 py-2 text-white font-medium rounded-sm shadow hover:bg-[#D73510] transition">Simpan Perubahan</button>
+                 <button type="submit" className="bg-[#7C3AED] px-8 py-2 text-white font-medium rounded-sm shadow hover:bg-[#6D28D9] transition">Simpan Perubahan</button>
                  <a href="/seller" className="px-8 py-2 text-gray-600 font-medium border border-gray-300 rounded-sm hover:bg-gray-50 transition">Batal</a>
               </div>
             </div>

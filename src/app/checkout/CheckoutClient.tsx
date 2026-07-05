@@ -1,23 +1,22 @@
 'use client'
 
 import { useEffect, useState, useTransition } from 'react'
-import { Truck, Package, CheckCircle2, Loader2, AlertCircle, ChevronDown } from 'lucide-react'
+import { Truck, Package, CheckCircle2, Loader2, AlertCircle, ChevronDown, Tag, Gift } from 'lucide-react'
 import { placeOrderAction } from './actions'
+import { calculateShippingPromo, FREE_SHIPPING_CONFIG } from '@/lib/shipping-promo'
+import { formatRupiah } from '@/lib/format'
 
 interface Variant { id: string; name: string; price: number }
-interface Product { id: string; name: string; weight: number; store: { id: string; name: string; cityId: string | null } }
+interface Product { id: string; name: string; weight: number; store: { id: string; name: string; cityId: string | null; province: string | null } }
 interface CartItem { id: string; quantity: number; variant: Variant & { product: Product } }
-interface Address { id: string; label: string; receiverName: string; phone: string; fullAddress: string; isPrimary: boolean; cityId: string | null }
+interface Address { id: string; label: string; receiverName: string; phone: string; fullAddress: string; isPrimary: boolean; cityId: string | null; province?: string | null }
 interface ShippingService { service: string; description: string; cost: number; etd: string }
 interface CourierResult { courier: string; services: ShippingService[] }
 
 interface CheckoutClientProps {
   addresses: Address[]
-  cartItemsByStore: { storeId: string; storeName: string; storeCityId: string | null; items: CartItem[] }[]
+  cartItemsByStore: { storeId: string; storeName: string; storeCityId: string | null; storeProvince: string | null; items: CartItem[] }[]
 }
-
-const formatRupiah = (n: number) =>
-  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n)
 
 export default function CheckoutClient({ addresses, cartItemsByStore }: CheckoutClientProps) {
   const [selectedAddressId, setSelectedAddressId] = useState<string>(
@@ -79,7 +78,25 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
     .flatMap(g => g.items)
     .reduce((acc, item) => acc + Number(item.variant.price) * item.quantity, 0)
 
-  const shippingTotal = Object.values(selectedShipping).reduce((acc, s) => acc + s.cost, 0)
+  // Hitung promo gratis ongkir per toko
+  const promoByStore: Record<string, ReturnType<typeof calculateShippingPromo>> = {}
+  for (const storeGroup of cartItemsByStore) {
+    const shipping = selectedShipping[storeGroup.storeId]
+    if (!shipping) continue
+    const storeSubtotal = storeGroup.items.reduce((acc, item) => acc + Number(item.variant.price) * item.quantity, 0)
+    promoByStore[storeGroup.storeId] = calculateShippingPromo({
+      subtotal: storeSubtotal,
+      shippingCost: shipping.cost,
+      buyerProvince: selectedAddress?.province || '',
+      sellerProvince: storeGroup.storeProvince || '',
+    })
+  }
+
+  const totalSubsidy = Object.values(promoByStore).reduce((acc, p) => acc + p.subsidyAmount, 0)
+  const shippingTotal = Object.entries(selectedShipping).reduce((acc, [storeId, s]) => {
+    const promo = promoByStore[storeId]
+    return acc + (promo ? promo.buyerPays : s.cost)
+  }, 0)
   const grandTotal = productTotal + shippingTotal
 
   const allShippingSelected = cartItemsByStore.every(g => selectedShipping[g.storeId])
@@ -146,14 +163,14 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
         {/* ADDRESS SELECTION */}
         <div className="bg-white rounded-sm shadow-sm border border-gray-100">
           <div className="border-b border-gray-100 px-6 py-4 flex items-center gap-2">
-            <div className="w-5 h-5 bg-[#EE4D2D] rounded-full flex items-center justify-center text-white text-[10px] font-bold">1</div>
+            <div className="w-5 h-5 bg-[#7C3AED] rounded-full flex items-center justify-center text-white text-[10px] font-bold">1</div>
             <h2 className="font-semibold text-gray-800">Alamat Pengiriman</h2>
           </div>
           <div className="p-6">
             {addresses.length === 0 ? (
               <div className="text-center py-6">
                 <p className="text-gray-500 text-sm mb-3">Kamu belum punya alamat tersimpan.</p>
-                <a href="/buyer/profile#addresses" className="text-[#EE4D2D] text-sm font-medium hover:underline">
+                <a href="/buyer/profile#addresses" className="text-[#7C3AED] text-sm font-medium hover:underline">
                   + Tambah Alamat Sekarang
                 </a>
               </div>
@@ -162,10 +179,10 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                 {addresses.map(addr => (
                   <label
                     key={addr.id}
-                    className={`flex gap-4 p-4 border rounded-sm cursor-pointer transition-all ${
+                    className={`flex gap-4 p-4 border rounded-md cursor-pointer transition-all duration-200 active:scale-[0.99] ${
                       selectedAddressId === addr.id
-                        ? 'border-[#EE4D2D] bg-[#fff9f8]'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-[#7C3AED] bg-[#fff9f8] shadow-sm'
+                        : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
                     }`}
                   >
                     <input
@@ -174,7 +191,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                       value={addr.id}
                       checked={selectedAddressId === addr.id}
                       onChange={() => setSelectedAddressId(addr.id)}
-                      className="accent-[#EE4D2D] mt-1 flex-shrink-0"
+                      className="accent-[#7C3AED] mt-1 flex-shrink-0"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -183,7 +200,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                         <span className="text-sm text-gray-500">{addr.phone}</span>
                         <span className="text-xs border border-gray-300 text-gray-500 px-1.5 py-0.5 rounded">{addr.label}</span>
                         {addr.isPrimary && (
-                          <span className="text-xs border border-[#EE4D2D] text-[#EE4D2D] px-1.5 py-0.5 rounded">Utama</span>
+                          <span className="text-xs border border-[#7C3AED] text-[#7C3AED] px-1.5 py-0.5 rounded">Utama</span>
                         )}
                         {!addr.cityId && (
                           <span className="text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded flex items-center gap-1">
@@ -195,7 +212,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                     </div>
                   </label>
                 ))}
-                <a href="/buyer/profile#addresses" className="text-[#EE4D2D] text-sm hover:underline inline-block mt-1">
+                <a href="/buyer/profile#addresses" className="text-[#7C3AED] text-sm hover:underline inline-block mt-1">
                   + Tambah Alamat Baru
                 </a>
               </div>
@@ -206,14 +223,14 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
         {/* SHIPPING PER STORE */}
         <div className="bg-white rounded-sm shadow-sm border border-gray-100">
           <div className="border-b border-gray-100 px-6 py-4 flex items-center gap-2">
-            <div className="w-5 h-5 bg-[#EE4D2D] rounded-full flex items-center justify-center text-white text-[10px] font-bold">2</div>
+            <div className="w-5 h-5 bg-[#7C3AED] rounded-full flex items-center justify-center text-white text-[10px] font-bold">2</div>
             <h2 className="font-semibold text-gray-800">Pilih Pengiriman</h2>
           </div>
 
           {!hasAddressWithCity && selectedAddress && (
-            <div className="mx-6 mt-4 flex items-center gap-2 text-sm bg-orange-50 border border-orange-200 text-orange-700 px-4 py-3 rounded-sm">
+            <div className="mx-6 mt-4 flex items-center gap-2 text-sm text-orange-600 bg-orange-50 px-3 py-2 rounded-md">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
-              <span>Alamat yang dipilih belum memiliki data kota. <a href="/buyer/profile#addresses" className="font-semibold underline">Update alamat</a> untuk menghitung ongkos kirim.</span>
+              <span>Pilih/update alamat dengan data kota untuk menghitung ongkos kirim.</span>
             </div>
           )}
 
@@ -252,7 +269,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                   {/* Shipping options */}
                   {isLoading && (
                     <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 px-4 py-3 rounded-sm">
-                      <Loader2 className="w-4 h-4 animate-spin text-[#EE4D2D]" />
+                      <Loader2 className="w-4 h-4 animate-spin text-[#7C3AED]" />
                       Menghitung ongkos kirim...
                     </div>
                   )}
@@ -271,16 +288,16 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                           return (
                             <label
                               key={key}
-                              className={`flex items-center gap-4 p-3 border rounded-sm cursor-pointer transition-all ${
+                              className={`flex items-center gap-4 p-3 border rounded-md cursor-pointer transition-all duration-200 active:scale-[0.99] ${
                                 isSelected
-                                  ? 'border-[#EE4D2D] bg-[#fff9f8]'
-                                  : 'border-gray-200 hover:border-gray-300'
+                                  ? 'border-[#7C3AED] bg-[#fff9f8] shadow-sm'
+                                  : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
                               }`}
                             >
                               <input
                                 type="radio"
                                 name={`shipping_${storeGroup.storeId}`}
-                                className="accent-[#EE4D2D] flex-shrink-0"
+                                className="accent-[#7C3AED] flex-shrink-0"
                                 checked={isSelected}
                                 onChange={() =>
                                   setSelectedShipping(prev => ({
@@ -289,7 +306,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                                   }))
                                 }
                               />
-                              <Truck className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-[#EE4D2D]' : 'text-gray-400'}`} />
+                              <Truck className={`w-4 h-4 flex-shrink-0 ${isSelected ? 'text-[#7C3AED]' : 'text-gray-400'}`} />
                               <div className="flex-1">
                                 <div className="flex items-center gap-2">
                                   <span className="font-semibold text-sm text-gray-800">{courier.courier} {svc.service}</span>
@@ -297,14 +314,25 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                                 </div>
                                 <span className="text-xs text-gray-400">Estimasi {svc.etd}</span>
                               </div>
-                              <span className={`font-semibold text-sm flex-shrink-0 ${isSelected ? 'text-[#EE4D2D]' : 'text-gray-700'}`}>
+                              <span className={`font-semibold text-sm flex-shrink-0 ${isSelected ? 'text-[#7C3AED]' : 'text-gray-700'}`}>
                                 {formatRupiah(svc.cost)}
                               </span>
-                              {isSelected && <CheckCircle2 className="w-4 h-4 text-[#EE4D2D] flex-shrink-0" />}
+                              {isSelected && <CheckCircle2 className="w-4 h-4 text-[#7C3AED] flex-shrink-0" />}
                             </label>
                           )
                         })
                       )}
+                    </div>
+                  )}
+
+                  {/* Promo Gratis Ongkir Banner */}
+                  {selected && promoByStore[storeGroup.storeId]?.eligible && (
+                    <div className="mt-2 text-green-600 text-xs font-medium flex items-center gap-1.5">
+                      <Gift className="w-3.5 h-3.5 flex-shrink-0" />
+                      {promoByStore[storeGroup.storeId].subsidyAmount === selected.cost
+                        ? 'Gratis Ongkir (ditanggung platform)'
+                        : `Diskon Ongkir ${formatRupiah(promoByStore[storeGroup.storeId].subsidyAmount)}`
+                      }
                     </div>
                   )}
                   {!isLoading && !error && storeShipping.length === 0 && hasAddressWithCity && storeGroup.storeCityId && (
@@ -328,7 +356,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
       <div className="lg:col-span-1">
         <div className="bg-white rounded-sm shadow-sm border border-gray-100 sticky top-20">
           <div className="border-b border-gray-100 px-5 py-4 flex items-center gap-2">
-            <div className="w-5 h-5 bg-[#EE4D2D] rounded-full flex items-center justify-center text-white text-[10px] font-bold">3</div>
+            <div className="w-5 h-5 bg-[#7C3AED] rounded-full flex items-center justify-center text-white text-[10px] font-bold">3</div>
             <h2 className="font-semibold text-gray-800">Ringkasan Pesanan</h2>
           </div>
           <div className="p-5 space-y-3 text-sm text-gray-700">
@@ -339,7 +367,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
             <div className="flex justify-between">
               <span>Total Ongkos Kirim</span>
               {Object.keys(selectedShipping).length > 0 ? (
-                <span className="font-medium text-[#EE4D2D]">{formatRupiah(shippingTotal)}</span>
+                <span className="font-medium text-[#7C3AED]">{formatRupiah(shippingTotal)}</span>
               ) : (
                 <span className="text-gray-400 italic text-xs">Pilih kurir dulu</span>
               )}
@@ -350,20 +378,34 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
               <div className="pl-3 space-y-1 text-xs text-gray-400 border-l-2 border-gray-100">
                 {cartItemsByStore.map(g => {
                   const s = selectedShipping[g.storeId]
+                  const promo = promoByStore[g.storeId]
                   if (!s) return null
                   return (
                     <div key={g.storeId} className="flex justify-between">
                       <span>{g.storeName} ({s.courier})</span>
-                      <span>{formatRupiah(s.cost)}</span>
+                      <span className="flex items-center gap-1">
+                        {promo?.eligible && promo.subsidyAmount > 0 && (
+                          <span className="line-through text-gray-300">{formatRupiah(s.cost)}</span>
+                        )}
+                        {formatRupiah(promo ? promo.buyerPays : s.cost)}
+                      </span>
                     </div>
                   )
                 })}
               </div>
             )}
 
+            {/* Subsidi Platform */}
+            {totalSubsidy > 0 && (
+              <div className="flex justify-between text-green-600 text-xs font-medium bg-green-50 px-3 py-2 rounded-sm">
+                <span className="flex items-center gap-1"><Gift className="w-3 h-3" /> Subsidi Gratis Ongkir Platform</span>
+                <span>- {formatRupiah(totalSubsidy)}</span>
+              </div>
+            )}
+
             <div className="border-t border-gray-100 pt-3 flex justify-between font-bold text-base">
               <span>Total Pembayaran</span>
-              <span className="text-[#EE4D2D]">{formatRupiah(grandTotal)}</span>
+              <span className="text-[#7C3AED]">{formatRupiah(grandTotal)}</span>
             </div>
           </div>
 
@@ -378,7 +420,7 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
             <button
               type="submit"
               disabled={isPending || !allShippingSelected || !selectedAddressId}
-              className="w-full bg-[#EE4D2D] text-white py-3.5 rounded-sm font-semibold hover:bg-[#D73510] transition disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#7C3AED] text-white py-3.5 rounded-md font-semibold hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none flex items-center justify-center gap-2"
             >
               {isPending ? (
                 <><Loader2 className="w-4 h-4 animate-spin" /> Memproses...</>

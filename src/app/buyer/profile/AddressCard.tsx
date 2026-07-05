@@ -35,7 +35,7 @@ export default function AddressCard({ address, setPrimaryAction, deleteAction }:
             <span className="text-sm text-gray-500">{address.phone}</span>
             <span className="text-xs border border-gray-300 text-gray-500 px-1.5 py-0.5 rounded flex-shrink-0">{address.label}</span>
             {address.isPrimary && (
-              <span className="text-xs border border-[#EE4D2D] text-[#EE4D2D] px-1.5 py-0.5 rounded flex items-center gap-1 flex-shrink-0">
+              <span className="text-xs border border-[#7C3AED] text-[#7C3AED] px-1.5 py-0.5 rounded flex items-center gap-1 flex-shrink-0">
                 <CheckCircle className="w-3 h-3" /> Utama
               </span>
             )}
@@ -56,7 +56,7 @@ export default function AddressCard({ address, setPrimaryAction, deleteAction }:
             <button
               onClick={() => startPrimaryTransition(() => setPrimaryAction(address.id))}
               disabled={isPrimaryPending}
-              className="text-xs text-[#EE4D2D] border border-[#EE4D2D] px-2 py-1 rounded hover:bg-[#fff0ed] transition flex items-center gap-1 whitespace-nowrap disabled:opacity-60"
+              className="text-xs text-[#7C3AED] border border-[#7C3AED] px-2 py-1 rounded hover:bg-[#fff0ed] transition flex items-center gap-1 whitespace-nowrap disabled:opacity-60"
             >
               {isPrimaryPending ? <Loader2 className="w-3 h-3 animate-spin" /> : null}
               {isPrimaryPending ? 'Mengatur...' : 'Jadikan Utama'}

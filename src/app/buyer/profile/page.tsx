@@ -7,6 +7,7 @@ import CitySearch from '@/components/CitySearch'
 import { updateProfileAction, addAddressAction, deleteAddressAction, setPrimaryAddressAction } from './actions'
 import LoadingButton from '@/components/LoadingButton'
 import AddressCard from './AddressCard'
+import { formatRupiah } from '@/lib/format'
 
 export const revalidate = 0
 
@@ -31,9 +32,6 @@ export default async function BuyerProfilePage() {
     .filter(t => t.paymentStatus === 'PAID')
     .reduce((acc, t) => acc + Number(t.totalAmount), 0)
 
-  const formatRupiah = (n: number) =>
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n)
-
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-20">
       <Navbar />
@@ -41,7 +39,7 @@ export default async function BuyerProfilePage() {
       <div className="max-w-[1000px] mx-auto px-4 mt-6">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-4">
-          <a href="/" className="hover:text-[#EE4D2D]">Beranda</a>
+          <a href="/" className="hover:text-[#7C3AED]">Beranda</a>
           <span className="mx-2">&gt;</span>
           <span className="text-gray-800 font-medium">Akun Saya</span>
         </div>
@@ -51,14 +49,14 @@ export default async function BuyerProfilePage() {
           <aside className="w-full md:w-56 flex-shrink-0">
             {/* Profile Card */}
             <div className="bg-white rounded-sm shadow-sm p-4 mb-4 flex items-center gap-3 border border-gray-100">
-              <div className="w-12 h-12 bg-[#EE4D2D] rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 overflow-hidden">
+              <div className="w-12 h-12 bg-[#7C3AED] rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0 overflow-hidden">
                 {profile.avatarUrl
                   ? <img src={profile.avatarUrl} alt="avatar" className="w-full h-full object-cover" />
                   : profile.name.charAt(0).toUpperCase()}
               </div>
               <div className="min-w-0">
                 <p className="font-semibold text-gray-800 text-sm truncate">{profile.name}</p>
-                <a href="#edit-profile" className="text-xs text-gray-400 hover:text-[#EE4D2D] transition flex items-center gap-1">
+                <a href="#edit-profile" className="text-xs text-gray-400 hover:text-[#7C3AED] transition flex items-center gap-1">
                   <User className="w-3 h-3" /> Edit Profil
                 </a>
               </div>
@@ -66,16 +64,16 @@ export default async function BuyerProfilePage() {
 
             {/* Nav Menu - Horizontal scroll on mobile */}
             <div className="bg-white rounded-sm shadow-sm border border-gray-100 text-sm flex md:flex-col overflow-x-auto md:overflow-visible">
-              <a href="/buyer/profile" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-[#EE4D2D] font-semibold bg-orange-50 border-b-2 md:border-b-0 md:border-l-2 border-[#EE4D2D] whitespace-nowrap">
+              <a href="/buyer/profile" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-[#7C3AED] font-semibold bg-teal-50 border-b-2 md:border-b-0 md:border-l-2 border-[#7C3AED] whitespace-nowrap">
                 <User className="w-4 h-4 hidden md:block" /> Akun Saya
               </a>
-              <a href="/buyer/profile#addresses" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#EE4D2D] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
+              <a href="/buyer/profile#addresses" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
                 <MapPin className="w-4 h-4 hidden md:block" /> Alamat Saya
               </a>
-              <a href="/buyer/orders" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#EE4D2D] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
+              <a href="/buyer/orders" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
                 <Star className="w-4 h-4 hidden md:block" /> Pesanan Saya
               </a>
-              <a href="/buyer/wishlist" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#EE4D2D] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
+              <a href="/buyer/wishlist" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent">
                 <Star className="w-4 h-4 hidden md:block" /> Wishlist
               </a>
             </div>
@@ -87,15 +85,15 @@ export default async function BuyerProfilePage() {
             {/* STATS ROW */}
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-3 md:p-4 text-center">
-                <div className="text-xl md:text-2xl font-bold text-[#EE4D2D]">{profile.transactions.length}</div>
+                <div className="text-xl md:text-2xl font-bold text-[#7C3AED]">{profile.transactions.length}</div>
                 <div className="text-[10px] md:text-xs text-gray-500 mt-1">Total Transaksi</div>
               </div>
               <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-3 md:p-4 text-center">
-                <div className="text-xl md:text-2xl font-bold text-[#EE4D2D]">{profile.addresses.length}</div>
+                <div className="text-xl md:text-2xl font-bold text-[#7C3AED]">{profile.addresses.length}</div>
                 <div className="text-[10px] md:text-xs text-gray-500 mt-1">Alamat Tersimpan</div>
               </div>
               <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-3 md:p-4 text-center">
-                <div className="text-xs md:text-sm font-bold text-[#EE4D2D] break-all leading-tight">{formatRupiah(totalSpent)}</div>
+                <div className="text-xs md:text-sm font-bold text-[#7C3AED] break-all leading-tight">{formatRupiah(totalSpent)}</div>
                 <div className="text-[10px] md:text-xs text-gray-500 mt-1">Total Belanja</div>
               </div>
             </div>
@@ -114,7 +112,7 @@ export default async function BuyerProfilePage() {
                     name="name"
                     defaultValue={profile.name}
                     required
-                    className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D] w-full md:max-w-sm"
+                    className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED] w-full md:max-w-sm"
                   />
                 </div>
                 <div className="flex flex-col md:grid md:grid-cols-[140px_1fr] md:items-center gap-1 md:gap-4">
@@ -131,14 +129,14 @@ export default async function BuyerProfilePage() {
                     name="phone"
                     defaultValue={profile.phone || ''}
                     placeholder="08xxxxxxxxxx"
-                    className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D] w-full md:max-w-sm"
+                    className="border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED] w-full md:max-w-sm"
                   />
                 </div>
                 <div className="flex flex-col md:grid md:grid-cols-[140px_1fr] md:items-center gap-1 md:gap-4">
                   <div className="hidden md:block"></div>
                   <LoadingButton
                     loadingText="Menyimpan..."
-                    className="bg-[#EE4D2D] text-white px-8 py-2.5 rounded-sm text-sm font-medium hover:bg-[#D73510] w-full md:w-fit"
+                    className="bg-[#7C3AED] text-white px-8 py-2.5 rounded-sm text-sm font-medium hover:bg-[#6D28D9] w-full md:w-fit"
                   >
                     Simpan
                   </LoadingButton>
@@ -176,39 +174,39 @@ export default async function BuyerProfilePage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="text-xs text-gray-500 mb-1 block">Label Alamat *</label>
-                      <input name="label" required placeholder="Rumah / Kantor" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D]" />
+                      <input name="label" required placeholder="Rumah / Kantor" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED]" />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 mb-1 block">Nama Penerima *</label>
-                      <input name="receiverName" required defaultValue={profile.name} className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D]" />
+                      <input name="receiverName" required defaultValue={profile.name} className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED]" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="text-xs text-gray-500 mb-1 block">No. HP Penerima *</label>
-                      <input name="phone" required defaultValue={profile.phone || ''} placeholder="08xxxxxxxxxx" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D]" />
+                      <input name="phone" required defaultValue={profile.phone || ''} placeholder="08xxxxxxxxxx" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED]" />
                     </div>
                     <div>
                       <label className="text-xs text-gray-500 mb-1 block">Kode Pos</label>
-                      <input name="postalCode" placeholder="12345" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D]" />
+                      <input name="postalCode" placeholder="12345" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED]" />
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-gray-500 mb-1 block">Kota / Kabupaten <span className="text-[#EE4D2D]">*</span> <span className="text-gray-400">(untuk perhitungan ongkos kirim)</span></label>
+                    <label className="text-xs text-gray-500 mb-1 block">Kota / Kabupaten <span className="text-[#7C3AED]">*</span> <span className="text-gray-400">(untuk perhitungan ongkos kirim)</span></label>
                     <CitySearch name="cityId" placeholder="Cari kota... (contoh: Jakarta, Surabaya)" required />
                   </div>
                   <div>
                     <label className="text-xs text-gray-500 mb-1 block">Alamat Lengkap *</label>
-                    <textarea name="fullAddress" required rows={2} placeholder="Nama jalan, nomor, RT/RW, kelurahan, kecamatan, kota, provinsi" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#EE4D2D] resize-none" />
+                    <textarea name="fullAddress" required rows={2} placeholder="Nama jalan, nomor, RT/RW, kelurahan, kecamatan, kota, provinsi" className="w-full border border-gray-300 rounded-sm px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-[#7C3AED] resize-none" />
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
                     <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
-                      <input type="checkbox" name="isPrimary" className="accent-[#EE4D2D] w-4 h-4" />
+                      <input type="checkbox" name="isPrimary" className="accent-[#7C3AED] w-4 h-4" />
                       Jadikan sebagai alamat utama
                     </label>
                     <LoadingButton
                       loadingText="Menyimpan..."
-                      className="bg-[#EE4D2D] text-white px-6 py-2 rounded-sm text-sm font-medium hover:bg-[#D73510] w-full sm:w-auto"
+                      className="bg-[#7C3AED] text-white px-6 py-2 rounded-sm text-sm font-medium hover:bg-[#6D28D9] w-full sm:w-auto"
                     >
                       Simpan Alamat
                     </LoadingButton>

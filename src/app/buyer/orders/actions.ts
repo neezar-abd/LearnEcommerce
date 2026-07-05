@@ -22,12 +22,36 @@ export async function completeOrderAction(orderId: string) {
     throw new Error('Order not found or cannot be completed yet')
   }
 
-  await prisma.order.update({
-    where: { id: orderId },
-    data: { status: 'COMPLETED' }
-  })
+  await prisma.$transaction(async (tx) => {
+    // 1. Update order status
+    await tx.order.update({
+      where: { id: orderId },
+      data: { status: 'COMPLETED' }
+    })
 
-  // We should also transfer funds to store wallet here in real apps!
+    // 2. Transfer funds to store wallet
+    // Calculate earnings (subtotal minus platform fee)
+    // Shipping is assumed cashless (paid to courier by platform)
+    const earnings = Number(order.subtotal) - Number(order.platformFee)
+
+    // Upsert wallet just in case store doesn't have one yet
+    const wallet = await tx.storeWallet.upsert({
+      where: { storeId: order.storeId },
+      create: { storeId: order.storeId, balance: earnings },
+      update: { balance: { increment: earnings } }
+    })
+
+    // 3. Create ledger entry
+    await tx.walletLedger.create({
+      data: {
+        storeWalletId: wallet.id,
+        amount: earnings,
+        type: 'ORDER_COMPLETED',
+        description: `Penjualan pesanan #${order.id.split('-')[0].toUpperCase()}`,
+        referenceId: order.id
+      }
+    })
+  })
   
   revalidatePath('/buyer/orders')
 }
@@ -57,4 +81,21 @@ export async function submitReviewAction(orderItemId: string, productId: string,
 
   revalidatePath('/buyer/orders')
   revalidatePath(`/product/${productId}`)
+}
+
+export async function simulatePaymentSuccessAction(transactionId: string) {
+  // DEV ONLY: Simulates a successful midtrans payment
+  await prisma.$transaction(async (tx) => {
+    await tx.transaction.update({
+      where: { id: transactionId },
+      data: { paymentStatus: 'PAID' }
+    })
+    
+    await tx.order.updateMany({
+      where: { transactionId },
+      data: { status: 'PACKING' }
+    })
+  })
+
+  revalidatePath('/buyer/orders')
 }

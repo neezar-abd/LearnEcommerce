@@ -23,6 +23,7 @@ export async function createStoreAction(formData: FormData) {
   const name = formData.get('name') as string
   const description = formData.get('description') as string
   const cityId = formData.get('cityId') as string | null
+  const province = formData.get('cityId_province') as string | null
   
   // Generate a unique domain slug from the store name
   const domain = name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.floor(Math.random() * 10000)
@@ -33,7 +34,8 @@ export async function createStoreAction(formData: FormData) {
       name,
       description,
       domain,
-      cityId: cityId || null
+      cityId: cityId || null,
+      province: province || null
     }
   })
 
@@ -47,6 +49,7 @@ export async function updateStoreCityAction(formData: FormData) {
   if (!user) redirect('/login')
 
   const cityId = formData.get('cityId') as string
+  const province = formData.get('cityId_province') as string | null
   if (!cityId) return
 
   const profile = await prisma.profile.findUnique({
@@ -57,7 +60,7 @@ export async function updateStoreCityAction(formData: FormData) {
 
   await prisma.store.update({
     where: { id: profile.store.id },
-    data: { cityId }
+    data: { cityId, province: province || null }
   })
 
   revalidatePath('/seller')

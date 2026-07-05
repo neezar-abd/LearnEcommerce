@@ -5,11 +5,12 @@ import { ShoppingCart, Minus, Plus } from 'lucide-react'
 import { addToCart } from '@/app/actions/cart'
 import { useRouter } from 'next/navigation'
 import WishlistButton from '@/components/WishlistButton'
+import { formatRupiah } from '@/lib/format'
 
 interface Variant {
   id: string;
   name: string;
-  price: number | any;
+  price: number;
   stock: number;
 }
 
@@ -20,10 +21,6 @@ export default function AddToCartClient({ variants, productId, productName }: { 
   const [quantity, setQuantity] = useState<number>(1)
   const [isLoading, setIsLoading] = useState(false)
   const [isBuyNowLoading, setIsBuyNowLoading] = useState(false)
-
-  const formatRupiah = (price: number) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
-  };
 
   const handleDecrease = () => {
     if (quantity > 1) setQuantity(q => q - 1)
@@ -69,27 +66,25 @@ export default function AddToCartClient({ variants, productId, productName }: { 
   }
 
   return (
-    <>
-      <div className="bg-[#f8f8f8] px-4 py-5 mb-6 flex items-center">
-         <span className="text-3xl font-medium text-[#EE4D2D]">{formatRupiah(Number(selectedVariant.price))}</span>
-      </div>
-
-      <div className="flex flex-col gap-6 mb-8 text-sm">
-        <div className="flex flex-col md:flex-row md:items-start gap-2 md:gap-0">
-          <span className="md:w-24 text-gray-500 md:mt-2">Varian</span>
-          <div className="flex flex-wrap gap-2 flex-1">
+    <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+      <h3 className="font-semibold text-gray-900 mb-4">Atur Jumlah</h3>
+      
+      {/* Varian Selection - if there are multiple variants */}
+      {variants.length > 1 && (
+        <div className="mb-4">
+          <div className="flex flex-wrap gap-2">
             {variants.map((v) => (
               <button 
                 key={v.id} 
                 onClick={() => {
                   setSelectedVariant(v)
-                  setQuantity(1) // Reset qty pas ganti varian
+                  setQuantity(1)
                 }}
                 disabled={v.stock === 0}
-                className={`border px-4 py-2 rounded-sm transition-colors ${
+                className={`border px-3 py-1.5 text-sm rounded-md transition-colors ${
                   selectedVariant.id === v.id 
-                    ? 'border-[#EE4D2D] text-[#EE4D2D]' 
-                    : 'border-gray-300 hover:border-[#EE4D2D] hover:text-[#EE4D2D] bg-white '
+                    ? 'border-[#7C3AED] text-[#7C3AED] bg-[#FAF5FF]' 
+                    : 'border-gray-300 hover:border-[#7C3AED] hover:text-[#7C3AED] bg-white '
                 } ${v.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-100 line-through' : ''}`}
               >
                 {v.name}
@@ -97,57 +92,71 @@ export default function AddToCartClient({ variants, productId, productName }: { 
             ))}
           </div>
         </div>
+      )}
 
-        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-0">
-          <span className="md:w-24 text-gray-500">Kuantitas</span>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center border border-gray-300 rounded-sm overflow-hidden">
-              <button 
-                type="button" 
-                onClick={handleDecrease} 
-                className="px-3 py-2 border-r border-gray-300 hover:bg-gray-50 w-10 flex items-center justify-center text-gray-600 hover:text-[#EE4D2D] transition-colors"
-              >
-                <Minus className="w-3 h-3" />
-              </button>
-              <input 
-                type="text" 
-                value={quantity} 
-                readOnly 
-                className="w-12 text-center outline-none bg-white text-sm text-[#EE4D2D] font-bold" 
-              />
-              <button 
-                type="button" 
-                onClick={handleIncrease} 
-                className="px-3 py-2 border-l border-gray-300 hover:bg-gray-50 w-10 flex items-center justify-center text-gray-600 hover:text-[#EE4D2D] transition-colors"
-              >
-                <Plus className="w-3 h-3" />
-              </button>
-            </div>
-            <span className="text-gray-500">Tersisa {selectedVariant.stock} buah</span>
+      {/* Quantity Selector */}
+      <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden h-9">
+          <button 
+            type="button" 
+            onClick={handleDecrease} 
+            className="w-9 h-full flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors"
+          >
+            <Minus className="w-3.5 h-3.5" />
+          </button>
+          <div className="w-10 h-full border-x border-gray-300 flex items-center justify-center">
+            <input 
+              type="text" 
+              value={quantity} 
+              readOnly 
+              className="w-full text-center outline-none bg-white text-sm text-gray-900 font-medium" 
+            />
           </div>
+          <button 
+            type="button" 
+            onClick={handleIncrease} 
+            className="w-9 h-full flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </button>
         </div>
+        <span className="text-xs text-gray-500">Sisa {selectedVariant.stock}</span>
       </div>
 
-      <div className="flex gap-3 mt-auto flex-wrap">
+      {/* Subtotal */}
+      <div className="flex items-center justify-between mb-6">
+        <span className="text-gray-500 text-sm">Subtotal</span>
+        <span className="text-lg font-bold text-gray-900">{formatRupiah(Number(selectedVariant.price) * quantity)}</span>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-col gap-2 mb-4">
         <button 
           type="button"
           onClick={handleAddToCart}
           disabled={isLoading || isBuyNowLoading || selectedVariant.stock === 0}
-          className="flex-1 md:flex-none border border-[#EE4D2D] bg-[#FFEEEE] text-[#EE4D2D] px-6 py-3 rounded-sm flex items-center justify-center gap-2 hover:bg-[#FFDEDE] disabled:opacity-50"
+          className="w-full bg-[#148356] text-white py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:bg-[#116b47] transition-colors disabled:opacity-50"
         >
-          <ShoppingCart className="w-5 h-5" />
-          {isLoading ? 'Menambahkan...' : 'Masukkan Keranjang'}
+          <span className="font-bold">+</span> Keranjang
         </button>
         <button 
           type="button"
           onClick={handleBuyNow}
           disabled={isBuyNowLoading || isLoading || selectedVariant.stock === 0}
-          className="flex-1 md:flex-none bg-[#EE4D2D] text-white px-10 py-3 rounded-sm hover:bg-[#D73510] disabled:opacity-50 transition-colors"
+          className="w-full border border-[#148356] text-[#148356] py-2.5 rounded-lg font-medium text-sm hover:bg-[#FAF5FF] transition-colors disabled:opacity-50"
         >
-          {isBuyNowLoading ? 'Memproses...' : 'Beli Sekarang'}
+          Beli Langsung
         </button>
-        <WishlistButton productId={productId} productName={productName} />
       </div>
-    </>
+
+      {/* Footer Links */}
+      <div className="flex items-center justify-center gap-6 mt-6">
+        <WishlistButton productId={productId} productName={productName} customClass="text-gray-500 hover:text-gray-800 text-xs flex items-center gap-1.5" />
+        <button className="text-gray-500 hover:text-gray-800 text-xs flex items-center gap-1.5 transition-colors">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+          Share
+        </button>
+      </div>
+    </div>
   )
 }

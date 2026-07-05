@@ -25,7 +25,7 @@ export default async function CheckoutPage() {
                   product: {
                     include: {
                       store: {
-                        select: { id: true, name: true, cityId: true }
+                        select: { id: true, name: true, cityId: true, province: true }
                       }
                     }
                   }
@@ -64,7 +64,8 @@ export default async function CheckoutPage() {
             store: {
               id: store.id,
               name: store.name,
-              cityId: store.cityId
+              cityId: store.cityId,
+              province: store.province ?? null
             }
           }
         }
@@ -75,15 +76,16 @@ export default async function CheckoutPage() {
         existing.items.push(cleanItem as any)
       } else {
         acc.push({
-          storeId: store.id,
-          storeName: store.name,
-          storeCityId: store.cityId,
-          items: [cleanItem as any]
-        })
+            storeId: store.id,
+            storeName: store.name,
+            storeCityId: store.cityId,
+            storeProvince: store.province ?? null,
+            items: [cleanItem as any]
+          })
       }
       return acc
     },
-    [] as { storeId: string; storeName: string; storeCityId: string | null; items: any[] }[]
+    [] as { storeId: string; storeName: string; storeCityId: string | null; storeProvince: string | null; items: any[] }[]
   )
 
   return (
@@ -93,9 +95,9 @@ export default async function CheckoutPage() {
       <div className="max-w-[1200px] mx-auto px-4 mt-6">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">
-          <a href="/" className="hover:text-[#EE4D2D]">Beranda</a>
+          <a href="/" className="hover:text-[#7C3AED]">Beranda</a>
           <span>&gt;</span>
-          <a href="/cart" className="hover:text-[#EE4D2D]">Keranjang</a>
+          <a href="/cart" className="hover:text-[#7C3AED]">Keranjang</a>
           <span>&gt;</span>
           <span className="text-gray-800 font-medium">Checkout</span>
         </div>
@@ -116,7 +118,8 @@ export default async function CheckoutPage() {
             phone: a.phone,
             fullAddress: a.fullAddress,
             isPrimary: a.isPrimary,
-            cityId: a.cityId
+            cityId: a.cityId,
+            province: (a as any).province ?? null
           }))}
           cartItemsByStore={itemsGroupedByStore}
         />

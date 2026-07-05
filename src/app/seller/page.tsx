@@ -7,6 +7,7 @@ import {
   Store, Package, LayoutDashboard, LogOut, ClipboardList, TrendingUp, Settings, Navigation, Bell, Search
 } from 'lucide-react'
 import ProductTableActions from './ProductTableActions'
+import { formatRupiah } from '@/lib/format'
 
 export const revalidate = 0
 
@@ -38,9 +39,7 @@ export default async function SellerPage() {
     }
   })
 
-  const formatRupiah = (price: number) => {
-    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
-  };
+
 
   // KONDISI 1: JIKA USER BELUM BUKA TOKO
   if (!profile?.store) {
@@ -49,27 +48,27 @@ export default async function SellerPage() {
         <div className="max-w-md w-full bg-white p-8 rounded shadow-sm border border-gray-100">
           <div className="flex flex-col items-center mb-6">
             <div className="w-16 h-16 bg-[#FFEEEE] rounded-full flex items-center justify-center mb-4">
-              <Store className="w-8 h-8 text-[#EE4D2D]" />
+              <Store className="w-8 h-8 text-[#7C3AED]" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Buka Toko Gratis!</h2>
-            <p className="text-gray-500 text-sm text-center mt-2">Mulai berjualan di UchinagaStore dan capai jutaan pembeli setiap harinya.</p>
+            <p className="text-gray-500 text-sm text-center mt-2">Mulai berjualan di LokaBeli dan capai jutaan pembeli setiap harinya.</p>
           </div>
           
           <form action={createStoreAction} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Nama Toko *</label>
-              <input type="text" name="name" required className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white" placeholder="Uchinaga Official" />
+              <input type="text" name="name" required className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white" placeholder="LokaBeli Official" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi Toko *</label>
-              <textarea name="description" required rows={3} className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white" placeholder="Menjual kebutuhan sehari-hari dengan kualitas terbaik..." />
+              <textarea name="description" required rows={3} className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white" placeholder="Menjual kebutuhan sehari-hari dengan kualitas terbaik..." />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Kota / Kabupaten Toko <span className="text-[#EE4D2D]">*</span></label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Kota / Kabupaten Toko <span className="text-[#7C3AED]">*</span></label>
               <CitySearch name="cityId" placeholder="Cari kota lokasi toko..." required />
               <p className="text-xs text-gray-400 mt-1">Digunakan untuk menghitung ongkos kirim ke pembeli.</p>
             </div>
-            <button type="submit" className="w-full bg-[#EE4D2D] text-white py-3 rounded hover:bg-[#D73510] font-medium transition-colors">
+            <button type="submit" className="w-full bg-[#7C3AED] text-white py-3 rounded hover:bg-[#6D28D9] font-medium transition-colors">
               Buat Toko Sekarang
             </button>
           </form>
@@ -86,20 +85,20 @@ export default async function SellerPage() {
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col">
       {/* MOBILE WARNING OVERLAY */}
       <div className="md:hidden fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center p-6 text-center">
-        <LayoutDashboard className="w-16 h-16 text-[#EE4D2D] mb-4" />
+        <LayoutDashboard className="w-16 h-16 text-[#7C3AED] mb-4" />
         <h2 className="text-xl font-bold text-gray-800 mb-2">Buka di Desktop</h2>
         <p className="text-gray-500 text-sm">Untuk pengalaman manajemen toko yang lebih baik dan optimal, silakan buka Seller Centre melalui perangkat Desktop atau Laptop.</p>
-        <a href="/" className="mt-8 text-[#EE4D2D] font-medium border border-[#EE4D2D] px-6 py-2 rounded">Kembali ke Beranda</a>
+        <a href="/" className="mt-8 text-[#7C3AED] font-medium border border-[#7C3AED] px-6 py-2 rounded">Kembali ke Beranda</a>
       </div>
 
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
-        <a href="/" className="flex items-center gap-2 text-[#EE4D2D]">
+        <a href="/" className="flex items-center gap-2 text-[#7C3AED]">
           <Store className="w-6 h-6" />
-          <span className="font-medium text-lg tracking-tight">Shopee Seller Centre</span>
+          <span className="font-medium text-lg tracking-tight">LokaBeli Seller Centre</span>
         </a>
         <div className="flex items-center gap-6 text-gray-500">
-          <Bell className="w-5 h-5 cursor-pointer hover:text-[#EE4D2D]" />
+          <Bell className="w-5 h-5 cursor-pointer hover:text-[#7C3AED]" />
           <div className="flex items-center gap-2 cursor-pointer border-l pl-6 border-gray-200">
             <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
                {store.name.charAt(0)}
@@ -118,20 +117,20 @@ export default async function SellerPage() {
               <ClipboardList className="w-4 h-4" /> Pesanan
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
-              <a href="/seller/orders" className="hover:text-[#EE4D2D] cursor-pointer transition">Pesanan Saya</a>
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Pengiriman Massal</span>
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Pengaturan Pengiriman</span>
+              <a href="/seller/orders" className="hover:text-[#7C3AED] cursor-pointer transition">Pesanan Saya</a>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Pengiriman Massal</span>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Pengaturan Pengiriman</span>
             </div>
           </div>
 
           <div className="px-4 mb-4">
-            <div className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-2 text-[#EE4D2D]">
+            <div className="text-sm font-semibold text-gray-800 flex items-center gap-2 mb-2 text-[#7C3AED]">
               <Package className="w-4 h-4" /> Produk
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2 font-medium">
-              <a href="/seller" className="text-[#EE4D2D] cursor-pointer transition hover:text-[#D73510]">Produk Saya</a>
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Tambah Produk Baru</span>
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Manajemen Merek</span>
+              <a href="/seller" className="text-[#7C3AED] cursor-pointer transition hover:text-[#6D28D9]">Produk Saya</a>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Tambah Produk Baru</span>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Manajemen Merek</span>
             </div>
           </div>
 
@@ -140,8 +139,8 @@ export default async function SellerPage() {
               <TrendingUp className="w-4 h-4" /> Bisnis Saya
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Performa Toko</span>
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Kesehatan Toko</span>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Performa Toko</span>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Kesehatan Toko</span>
             </div>
           </div>
 
@@ -150,9 +149,9 @@ export default async function SellerPage() {
               <Settings className="w-4 h-4" /> Toko
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Profil Toko</span>
-              <span className="hover:text-[#EE4D2D] cursor-pointer transition">Dekorasi Toko</span>
-              <a href="/" className="hover:text-[#EE4D2D] cursor-pointer transition text-gray-400 mt-4 border-t pt-2 block">
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Profil Toko</span>
+              <span className="hover:text-[#7C3AED] cursor-pointer transition">Dekorasi Toko</span>
+              <a href="/" className="hover:text-[#7C3AED] cursor-pointer transition text-gray-400 mt-4 border-t pt-2 block">
                 Kembali ke Marketplace
               </a>
             </div>
@@ -163,20 +162,20 @@ export default async function SellerPage() {
         <main className="flex-1 p-6 overflow-x-hidden">
 
           {/* MATRIKS / STATUS PESANAN ALERT */}
-          <div className="grid grid-cols-4 bg-white rounded shadow-sm border border-gray-100 mb-6 text-center divide-x divide-gray-100 p-4">
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-sm transition">
+          <div className="grid grid-cols-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 mb-6 text-center divide-x divide-gray-100 p-4">
+            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'PACKING').length}</span>
               <span className="text-xs text-gray-500">Perlu Diproses</span>
             </a>
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-sm transition">
+            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'SHIPPED').length}</span>
               <span className="text-xs text-gray-500">Sedang Dikirim</span>
             </a>
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-sm transition">
+            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'COMPLETED').length}</span>
               <span className="text-xs text-gray-500">Selesai</span>
             </a>
-            <div className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-sm transition">
+            <div className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-xl font-bold text-green-600">{formatRupiah(Number(store.wallet?.balance || 0))}</span>
               <span className="text-xs text-gray-500">Saldo Toko</span>
             </div>
@@ -193,7 +192,7 @@ export default async function SellerPage() {
                 <div className="flex-1">
                   <CitySearch name="cityId" placeholder="Cari kota toko..." required />
                 </div>
-                <button type="submit" className="bg-[#EE4D2D] text-white px-4 py-2 rounded-sm text-sm font-medium hover:bg-[#D73510] transition whitespace-nowrap">
+                <button type="submit" className="bg-[#7C3AED] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 whitespace-nowrap">
                   Simpan
                 </button>
               </form>
@@ -256,7 +255,7 @@ export default async function SellerPage() {
 
                        <div className="col-span-2 flex items-center">
                          {product.variants[0]?.stock === 0 ? (
-                           <span className="text-[#EE4D2D] font-medium text-xs bg-red-50 px-1.5 py-0.5 rounded">Habis</span>
+                           <span className="text-[#7C3AED] font-medium text-xs bg-red-50 px-1.5 py-0.5 rounded">Habis</span>
                          ) : (
                            <span>{product.variants[0]?.stock}</span>
                          )}
@@ -279,12 +278,12 @@ export default async function SellerPage() {
                 <form action={addProductAction} className="space-y-4">
                   <div>
                     <label className="block text-[13px] font-medium text-gray-700 mb-1">Nama Barang *</label>
-                    <input type="text" name="name" required className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm" />
+                    <input type="text" name="name" required className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm" />
                   </div>
                   
                   <div>
                     <label className="block text-[13px] font-medium text-gray-700 mb-1">Kategori *</label>
-                    <select name="categoryId" required className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm">
+                    <select name="categoryId" required className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm">
                       <option value="">Pilih Kategori...</option>
                       {categories.map(cat => (
                         <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -295,29 +294,29 @@ export default async function SellerPage() {
                   <div className="grid grid-cols-3 gap-3">
                     <div>
                       <label className="block text-[13px] font-medium text-gray-700 mb-1">Harga *</label>
-                      <input type="number" name="price" required min={0} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm" placeholder="Rp" />
+                      <input type="number" name="price" required min={0} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm" placeholder="Rp" />
                     </div>
                     <div>
                       <label className="block text-[13px] font-medium text-gray-700 mb-1">Stok *</label>
-                      <input type="number" name="stock" required min={0} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm" placeholder="0" />
+                      <input type="number" name="stock" required min={0} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm" placeholder="0" />
                     </div>
                     <div>
                       <label className="block text-[13px] font-medium text-gray-700 mb-1">Berat (gram) *</label>
-                      <input type="number" name="weight" required min={1} defaultValue={1000} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm" placeholder="1000" />
+                      <input type="number" name="weight" required min={1} defaultValue={1000} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm" placeholder="1000" />
                     </div>
                   </div>
                   
                   <div>
                     <label className="block text-[13px] font-medium text-gray-700 mb-1">Foto Produk *</label>
-                    <input type="file" name="image" accept="image/*" required className="w-full px-3 py-1.5 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#EE4D2D] file:text-white hover:file:bg-[#D73510]" />
+                    <input type="file" name="image" accept="image/*" required className="w-full px-3 py-1.5 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-[#7C3AED] file:text-white hover:file:bg-[#6D28D9]" />
                   </div>
 
                   <div>
                     <label className="block text-[13px] font-medium text-gray-700 mb-1">Deskripsi *</label>
-                    <textarea name="description" required rows={3} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#EE4D2D] text-gray-900 bg-white shadow-sm resize-none" />
+                    <textarea name="description" required rows={3} className="w-full px-3 py-2 text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:border-[#7C3AED] text-gray-900 bg-white shadow-sm resize-none" />
                   </div>
 
-                  <button type="submit" className="w-full bg-[#EE4D2D] text-white py-2.5 rounded-sm shadow hover:bg-[#D73510] text-[13px] font-medium transition-colors mt-2">
+                  <button type="submit" className="w-full bg-[#7C3AED] text-white py-2.5 rounded-md shadow-sm hover:shadow-md shadow-[#7C3AED]/20 hover:bg-[#6D28D9] text-[13px] font-medium transition-all duration-200 active:scale-95 mt-2">
                     Simpan & Tampilkan
                   </button>
                 </form>
