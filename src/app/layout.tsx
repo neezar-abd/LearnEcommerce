@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingChatWrapper from "@/components/chat/FloatingChatWrapper";
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col pb-16 md:pb-0">
         <ProgressBarProvider>
           {children}
-          <FloatingChatWrapper />
+          <Suspense fallback={null}>
+            <FloatingChatWrapper />
+          </Suspense>
           <BuyerBottomNav />
         </ProgressBarProvider>
       </body>
