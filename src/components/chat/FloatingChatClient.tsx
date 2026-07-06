@@ -30,8 +30,14 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
       const storeId = customEvent.detail
       
       setIsOpen(true)
-      setIsLoading(true)
       
+      if (!storeId) {
+        // Just open the chat list
+        setActiveConversationId(null)
+        return
+      }
+
+      setIsLoading(true)
       // Start or get conversation with the store
       const result = await startConversation(storeId)
       if (result.conversationId) {
@@ -51,7 +57,7 @@ export default function FloatingChatClient({ currentProfileId }: { currentProfil
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-0 right-4 md:right-10 bg-white border border-gray-200 text-[#7C3AED] px-4 md:px-6 py-2.5 rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,0.1)] hover:bg-gray-50 transition-all duration-300 z-50 flex items-center justify-center gap-2 font-medium"
+        className="hidden md:flex fixed bottom-0 right-4 md:right-10 bg-white border border-gray-200 text-[#7C3AED] px-4 md:px-6 py-2.5 rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,0.1)] hover:bg-gray-50 transition-all duration-300 z-50 items-center justify-center gap-2 font-medium"
       >
         <MessageSquare className="w-5 h-5 fill-[#7C3AED]" /> Chat
       </button>
