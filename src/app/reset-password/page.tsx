@@ -1,4 +1,5 @@
 import ResetPasswordClient from './ResetPasswordClient'
+import Link from 'next/link'
 
 export default async function ResetPasswordPage({
   searchParams,
@@ -12,13 +13,13 @@ export default async function ResetPasswordPage({
     <div className="min-h-screen bg-[#7C3AED] flex flex-col font-sans">
       {/* Header */}
       <header className="bg-white px-4 md:px-12 py-4 flex items-center shadow-sm">
-        <a href="/" className="flex items-center gap-2 cursor-pointer">
+        <Link href="/" className="flex items-center gap-2 cursor-pointer">
           <div className="w-10 h-10 bg-[#7C3AED] rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-2xl">L</span>
           </div>
           <span className="font-bold text-2xl tracking-tight text-[#7C3AED]">LokaBeli</span>
           <span className="text-2xl font-medium text-gray-800 ml-2">Reset Password</span>
-        </a>
+        </Link>
       </header>
 
       {/* Main */}
@@ -48,9 +49,9 @@ export default async function ResetPasswordPage({
 
           <p className="text-center text-xs text-gray-400 mt-4">
             Ingat password lama?{' '}
-            <a href="/login" className="text-[#7C3AED] hover:underline font-medium">
+            <Link href="/login" className="text-[#7C3AED] hover:underline font-medium">
               Login di sini
-            </a>
+            </Link>
           </p>
         </div>
       </div>

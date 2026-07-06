@@ -1,4 +1,5 @@
 import { forgotPassword } from './actions'
+import Link from 'next/link'
 
 export default async function ForgotPasswordPage({
   searchParams,
@@ -13,13 +14,13 @@ export default async function ForgotPasswordPage({
     <div className="min-h-screen bg-[#7C3AED] flex flex-col font-sans">
       {/* Header */}
       <header className="bg-white px-4 md:px-12 py-4 flex items-center shadow-sm">
-        <a href="/" className="flex items-center gap-2 cursor-pointer">
+        <Link href="/" className="flex items-center gap-2 cursor-pointer">
           <div className="w-10 h-10 bg-[#7C3AED] rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-2xl">L</span>
           </div>
           <span className="font-bold text-2xl tracking-tight text-[#7C3AED]">LokaBeli</span>
           <span className="text-2xl font-medium text-gray-800 ml-2">Lupa Password</span>
-        </a>
+        </Link>
       </header>
 
       {/* Main */}
@@ -54,12 +55,12 @@ export default async function ForgotPasswordPage({
                 <br/>
                 <span className="text-xs text-gray-400 mt-1 block">Cek folder spam jika tidak masuk inbox.</span>
               </p>
-              <a
+              <Link
                 href="/login"
                 className="mt-4 inline-block text-[#7C3AED] text-sm font-medium hover:underline"
               >
                 ← Kembali ke Login
-              </a>
+              </Link>
             </div>
           ) : (
             <form className="space-y-5">
@@ -83,12 +84,12 @@ export default async function ForgotPasswordPage({
                   Kirim Link Reset
                 </button>
 
-                <a
+                <Link
                   href="/login"
                   className="text-center text-sm text-gray-500 hover:text-[#7C3AED] transition-colors"
                 >
                   ← Kembali ke Login
-                </a>
+                </Link>
               </div>
             </form>
           )}

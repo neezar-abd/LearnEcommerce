@@ -9,6 +9,7 @@ import {
 import ProductTableActions from './ProductTableActions'
 import { formatRupiah } from '@/lib/format'
 import SellerBottomNav from './SellerBottomNav'
+import Link from 'next/link'
 
 export const revalidate = 0
 
@@ -86,10 +87,10 @@ export default async function SellerPage() {
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
-        <a href="/" className="flex items-center gap-2 text-[#7C3AED] min-w-0">
+        <Link href="/" className="flex items-center gap-2 text-[#7C3AED] min-w-0">
           <Store className="w-6 h-6 flex-shrink-0" />
           <span className="font-medium text-base md:text-lg tracking-tight truncate">LokaBeli<span className="hidden sm:inline"> Seller Centre</span></span>
-        </a>
+        </Link>
         <div className="flex items-center gap-3 md:gap-6 text-gray-500 flex-shrink-0">
           <Bell className="w-5 h-5 cursor-pointer hover:text-[#7C3AED]" />
           <div className="flex items-center gap-2 cursor-pointer border-l pl-3 md:pl-6 border-gray-200">
@@ -110,7 +111,7 @@ export default async function SellerPage() {
               <ClipboardList className="w-4 h-4" /> Pesanan
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
-              <a href="/seller/orders" className="hover:text-[#7C3AED] cursor-pointer transition">Pesanan Saya</a>
+              <Link href="/seller/orders" className="hover:text-[#7C3AED] cursor-pointer transition">Pesanan Saya</Link>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Pengiriman Massal</span>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Pengaturan Pengiriman</span>
             </div>
@@ -121,7 +122,7 @@ export default async function SellerPage() {
               <Package className="w-4 h-4" /> Produk
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2 font-medium">
-              <a href="/seller" className="text-[#7C3AED] cursor-pointer transition hover:text-[#6D28D9]">Produk Saya</a>
+              <Link href="/seller" className="text-[#7C3AED] cursor-pointer transition hover:text-[#6D28D9]">Produk Saya</Link>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Tambah Produk Baru</span>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Manajemen Merek</span>
             </div>
@@ -144,9 +145,9 @@ export default async function SellerPage() {
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Profil Toko</span>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Dekorasi Toko</span>
-              <a href="/" className="hover:text-[#7C3AED] cursor-pointer transition text-gray-400 mt-4 border-t pt-2 block">
+              <Link href="/" className="hover:text-[#7C3AED] cursor-pointer transition text-gray-400 mt-4 border-t pt-2 block">
                 Kembali ke Marketplace
-              </a>
+              </Link>
             </div>
           </div>
         </aside>
@@ -156,22 +157,22 @@ export default async function SellerPage() {
 
           {/* DESKTOP MATRIKS / STATUS PESANAN ALERT */}
           <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-xl shadow-sm border border-gray-100 mb-6 text-center p-4">
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
+            <Link href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'PACKING').length}</span>
               <span className="text-xs text-gray-500">Perlu Diproses</span>
-            </a>
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
+            </Link>
+            <Link href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'SHIPPED').length}</span>
               <span className="text-xs text-gray-500">Sedang Dikirim</span>
-            </a>
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
+            </Link>
+            <Link href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'COMPLETED').length}</span>
               <span className="text-xs text-gray-500">Selesai</span>
-            </a>
-            <a href="/seller/wallet" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
+            </Link>
+            <Link href="/seller/wallet" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-xl font-bold text-green-600">{formatRupiah(Number(store.wallet?.balance || 0))}</span>
               <span className="text-xs text-gray-500">Saldo Toko</span>
-            </a>
+            </Link>
           </div>
 
           {/* MOBILE DASHBOARD HUB */}
@@ -180,21 +181,21 @@ export default async function SellerPage() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4">
               <div className="flex justify-between items-center mb-3">
                 <span className="font-semibold text-sm text-gray-800">Status Pesanan</span>
-                <a href="/seller/orders" className="text-xs text-[#7C3AED] hover:underline">Lihat Riwayat &gt;</a>
+                <Link href="/seller/orders" className="text-xs text-[#7C3AED] hover:underline">Lihat Riwayat &gt;</Link>
               </div>
               <div className="grid grid-cols-3 gap-2 text-center">
-                <a href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
+                <Link href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
                   <span className="text-xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'PACKING').length}</span>
                   <span className="text-[10px] text-gray-500 leading-tight">Perlu Dikirim</span>
-                </a>
-                <a href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
+                </Link>
+                <Link href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
                   <span className="text-xl font-bold text-[#2673dd]">0</span>
                   <span className="text-[10px] text-gray-500 leading-tight">Pembatalan</span>
-                </a>
-                <a href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
+                </Link>
+                <Link href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
                   <span className="text-xl font-bold text-[#2673dd]">0</span>
                   <span className="text-[10px] text-gray-500 leading-tight">Pengembalian</span>
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -202,24 +203,24 @@ export default async function SellerPage() {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
               <span className="font-semibold text-sm text-gray-800 block mb-4">Fitur Toko</span>
               <div className="grid grid-cols-3 gap-4 text-center">
-                <a href="/seller/products" className="flex flex-col gap-2 items-center justify-center group">
+                <Link href="/seller/products" className="flex flex-col gap-2 items-center justify-center group">
                   <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-[#7C3AED] group-hover:scale-105 transition-transform">
                     <Package className="w-6 h-6" />
                   </div>
                   <span className="text-[11px] font-medium text-gray-700">Produk</span>
-                </a>
-                <a href="/seller/orders" className="flex flex-col gap-2 items-center justify-center group">
+                </Link>
+                <Link href="/seller/orders" className="flex flex-col gap-2 items-center justify-center group">
                   <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 group-hover:scale-105 transition-transform">
                     <ClipboardList className="w-6 h-6" />
                   </div>
                   <span className="text-[11px] font-medium text-gray-700">Pesanan</span>
-                </a>
-                <a href="/seller/wallet" className="flex flex-col gap-2 items-center justify-center group">
+                </Link>
+                <Link href="/seller/wallet" className="flex flex-col gap-2 items-center justify-center group">
                   <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-600 group-hover:scale-105 transition-transform">
                     <Wallet className="w-6 h-6" />
                   </div>
                   <span className="text-[11px] font-medium text-gray-700">Keuangan</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

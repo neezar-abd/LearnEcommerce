@@ -5,6 +5,7 @@ import { Truck, Package, CheckCircle2, Loader2, AlertCircle, ChevronDown, Tag, G
 import { placeOrderAction } from './actions'
 import { calculateShippingPromo, FREE_SHIPPING_CONFIG } from '@/lib/shipping-promo'
 import { formatRupiah } from '@/lib/format'
+import Link from 'next/link'
 
 interface Variant { id: string; name: string; price: number }
 interface Product { id: string; name: string; weight: number; store: { id: string; name: string; cityId: string | null; province: string | null } }
@@ -170,9 +171,9 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
             {addresses.length === 0 ? (
               <div className="text-center py-6">
                 <p className="text-gray-500 text-sm mb-3">Kamu belum punya alamat tersimpan.</p>
-                <a href="/buyer/profile#addresses" className="text-[#7C3AED] text-sm font-medium hover:underline">
+                <Link href="/buyer/profile#addresses" className="text-[#7C3AED] text-sm font-medium hover:underline">
                   + Tambah Alamat Sekarang
-                </a>
+                </Link>
               </div>
             ) : (
               <div className="space-y-3">
@@ -212,9 +213,9 @@ export default function CheckoutClient({ addresses, cartItemsByStore }: Checkout
                     </div>
                   </label>
                 ))}
-                <a href="/buyer/profile#addresses" className="text-[#7C3AED] text-sm hover:underline inline-block mt-1">
+                <Link href="/buyer/profile#addresses" className="text-[#7C3AED] text-sm hover:underline inline-block mt-1">
                   + Tambah Alamat Baru
-                </a>
+                </Link>
               </div>
             )}
           </div>

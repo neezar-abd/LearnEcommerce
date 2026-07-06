@@ -8,6 +8,7 @@ import { updateProfileAction, addAddressAction, deleteAddressAction, setPrimaryA
 import LoadingButton from '@/components/LoadingButton'
 import AddressCard from './AddressCard'
 import { formatRupiah } from '@/lib/format'
+import Link from 'next/link'
 
 export const revalidate = 0
 
@@ -37,7 +38,7 @@ export default async function BuyerProfilePage(props: { searchParams: Promise<{ 
       <div className="max-w-[1000px] mx-auto px-4 mt-6">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-4">
-          <a href="/" className="hover:text-[#7C3AED]">Beranda</a>
+          <Link href="/" className="hover:text-[#7C3AED]">Beranda</Link>
           <span className="mx-2">&gt;</span>
           <span className="text-gray-800 font-medium">Akun Saya</span>
         </div>
@@ -54,26 +55,26 @@ export default async function BuyerProfilePage(props: { searchParams: Promise<{ 
               </div>
               <div className="min-w-0">
                 <p className="font-semibold text-gray-800 text-sm truncate">{profile.name}</p>
-                <a href="#edit-profile" className="text-xs text-gray-400 hover:text-[#7C3AED] transition flex items-center gap-1">
+                <Link href="#edit-profile" className="text-xs text-gray-400 hover:text-[#7C3AED] transition flex items-center gap-1">
                   <User className="w-3 h-3" /> Edit Profil
-                </a>
+                </Link>
               </div>
             </div>
 
             {/* Nav Menu - Horizontal scroll on mobile */}
             <div className="bg-white rounded-sm shadow-sm border border-gray-100 text-sm flex md:flex-col overflow-x-auto md:overflow-visible">
-              <a href="/buyer/profile?tab=profile" className={`flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 whitespace-nowrap border-b-2 md:border-b-0 md:border-l-2 ${tab === 'profile' ? 'text-[#7C3AED] font-semibold bg-[#FAF5FF] border-[#7C3AED]' : 'text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 border-transparent md:border-l-transparent'}`}>
+              <Link href="/buyer/profile?tab=profile" className={`flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 whitespace-nowrap border-b-2 md:border-b-0 md:border-l-2 ${tab === 'profile' ? 'text-[#7C3AED] font-semibold bg-[#FAF5FF] border-[#7C3AED]' : 'text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 border-transparent md:border-l-transparent'}`}>
                 <User className="w-4 h-4 hidden md:block" /> Akun Saya
-              </a>
-              <a href="/buyer/profile?tab=addresses" className={`flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 whitespace-nowrap border-b-2 md:border-b-0 md:border-l-2 ${tab === 'addresses' ? 'text-[#7C3AED] font-semibold bg-[#FAF5FF] border-[#7C3AED]' : 'text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 border-transparent md:border-l-transparent'}`}>
+              </Link>
+              <Link href="/buyer/profile?tab=addresses" className={`flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 whitespace-nowrap border-b-2 md:border-b-0 md:border-l-2 ${tab === 'addresses' ? 'text-[#7C3AED] font-semibold bg-[#FAF5FF] border-[#7C3AED]' : 'text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 border-transparent md:border-l-transparent'}`}>
                 <MapPin className="w-4 h-4 hidden md:block" /> Alamat Saya
-              </a>
-              <a href="/buyer/orders" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent md:border-l-2 md:border-l-transparent">
+              </Link>
+              <Link href="/buyer/orders" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent md:border-l-2 md:border-l-transparent">
                 <Star className="w-4 h-4 hidden md:block" /> Pesanan Saya
-              </a>
-              <a href="/buyer/wishlist" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent md:border-l-2 md:border-l-transparent">
+              </Link>
+              <Link href="/buyer/wishlist" className="flex-none flex items-center justify-center md:justify-start gap-3 px-4 py-3 text-gray-600 hover:text-[#7C3AED] hover:bg-gray-50 transition whitespace-nowrap border-b-2 md:border-b-0 border-transparent md:border-l-2 md:border-l-transparent">
                 <Star className="w-4 h-4 hidden md:block" /> Wishlist
-              </a>
+              </Link>
             </div>
           </aside>
 

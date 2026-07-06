@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { Search, ShoppingCart, Mail, User } from 'lucide-react';
 import prisma from '@/lib/prisma';
 import NotificationDropdown from './NotificationDropdown';
+import Link from 'next/link'
 
 export default async function Navbar({ searchQuery }: { searchQuery?: string }) {
   const supabase = await createClient();
@@ -31,9 +32,9 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
     <header className="bg-white border-b border-gray-200 text-gray-700 sticky top-0 z-50">
       <div className="max-w-[1200px] mx-auto px-4 h-16 flex items-center gap-4 md:gap-8">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 cursor-pointer flex-shrink-0">
+        <Link href="/" className="flex items-center gap-2 cursor-pointer flex-shrink-0">
           <span className="text-[#7C3AED] font-bold text-2xl tracking-tight">LokaBeli</span>
-        </a>
+        </Link>
 
         {/* Kategori */}
         <div className="hidden md:block flex-shrink-0">
@@ -59,27 +60,27 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
         {/* Icons & Profile */}
         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
           <div className="flex items-center gap-1 md:gap-2 text-gray-500">
-            <a href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95">
+            <Link href="/cart" className="relative p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95">
               <ShoppingCart className="w-6 h-6" />
               {cartItemCount > 0 && (
                 <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white transform transition-transform animate-pulse">
                   {cartItemCount > 99 ? '99+' : cartItemCount}
                 </span>
               )}
-            </a>
+            </Link>
             {userProfile ? (
               <NotificationDropdown profileId={userProfile.id} />
             ) : null}
-            <a href="/messages" className="p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95 hidden md:block">
+            <Link href="/messages" className="p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95 hidden md:block">
               <Mail className="w-6 h-6" />
-            </a>
+            </Link>
           </div>
 
           <div className="h-6 w-px bg-gray-300 hidden md:block"></div>
 
           {userProfile ? (
             <div className="relative group flex items-center gap-4">
-              <a href="/buyer/profile" className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-50 transition-colors duration-200">
+              <Link href="/buyer/profile" className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-50 transition-colors duration-200">
                 <div className="w-8 h-8 bg-[#FAF5FF] rounded-full flex items-center justify-center text-[#7C3AED] overflow-hidden transition-transform duration-300 group-hover:scale-105">
                   {userProfile.avatarUrl ? (
                     <img src={userProfile.avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
@@ -88,19 +89,19 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
                   )}
                 </div>
                 <span className="font-medium text-sm text-gray-700 group-hover:text-[#7C3AED] transition-colors hidden md:block">{userProfile.name || 'penjual'}</span>
-              </a>
+              </Link>
               
-              <a href="/seller" className="hidden md:flex items-center justify-center px-4 py-1.5 border border-[#7C3AED] text-[#7C3AED] text-sm font-semibold rounded-md hover:bg-[#7C3AED] hover:text-white transition-all duration-300 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20">
+              <Link href="/seller" className="hidden md:flex items-center justify-center px-4 py-1.5 border border-[#7C3AED] text-[#7C3AED] text-sm font-semibold rounded-md hover:bg-[#7C3AED] hover:text-white transition-all duration-300 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20">
                 Buka Toko
-              </a>
+              </Link>
 
               {/* Dropdown Menu */}
               <div className="absolute top-full right-0 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out origin-top-right scale-95 group-hover:scale-100 w-48 z-50">
                 <div className="bg-white text-gray-700 rounded-xl shadow-lg flex flex-col text-sm relative border border-gray-100 overflow-hidden">
                   <div className="absolute -top-2 right-12 w-4 h-4 bg-white border-l border-t border-gray-100 rotate-45"></div>
-                  <a href="/buyer/profile" className="px-4 py-2.5 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors relative z-10">Akun Saya</a>
-                  <a href="/buyer/wishlist" className="px-4 py-2.5 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors relative z-10">Wishlist</a>
-                  <a href="/buyer/orders" className="px-4 py-2.5 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors relative z-10">Pesanan Saya</a>
+                  <Link href="/buyer/profile" className="px-4 py-2.5 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors relative z-10">Akun Saya</Link>
+                  <Link href="/buyer/wishlist" className="px-4 py-2.5 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors relative z-10">Wishlist</Link>
+                  <Link href="/buyer/orders" className="px-4 py-2.5 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors relative z-10">Pesanan Saya</Link>
                   <div className="h-px bg-gray-100 my-1 relative z-10"></div>
                   <form action="/auth/signout" method="post" className="w-full relative z-10">
                     <button type="submit" className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 transition-colors">Log Out</button>
@@ -110,8 +111,8 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
             </div>
           ) : (
             <div className="flex gap-3 font-medium text-sm items-center">
-              <a href="/login" className="px-4 py-1.5 border border-[#7C3AED] text-[#7C3AED] rounded-md hover:bg-gray-50 transition-all duration-200 active:scale-95">Masuk</a>
-              <a href="/login" className="px-4 py-1.5 bg-[#7C3AED] text-white rounded-md hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md">Daftar</a>
+              <Link href="/login" className="px-4 py-1.5 border border-[#7C3AED] text-[#7C3AED] rounded-md hover:bg-gray-50 transition-all duration-200 active:scale-95">Masuk</Link>
+              <Link href="/login" className="px-4 py-1.5 bg-[#7C3AED] text-white rounded-md hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 shadow-sm hover:shadow-md">Daftar</Link>
             </div>
           )}
         </div>

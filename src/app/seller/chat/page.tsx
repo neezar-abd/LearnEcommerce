@@ -31,9 +31,9 @@ export default async function SellerChatPage({ searchParams }: { searchParams: P
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
         <div className="flex items-center gap-4">
-          <a href="/seller" className="text-gray-600 hover:text-[#7C3AED]">
+          <Link href="/seller" className="text-gray-600 hover:text-[#7C3AED]">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-          </a>
+          </Link>
           <h1 className="font-semibold text-gray-800">Pesan Pelanggan</h1>
         </div>
         <div className="flex items-center gap-3 md:gap-6 text-gray-500 flex-shrink-0">

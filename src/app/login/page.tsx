@@ -1,5 +1,6 @@
 import { login, signup } from './actions'
 import Footer from '@/components/Footer'
+import Link from 'next/link'
 
 export default async function LoginPage({
   searchParams,
@@ -14,13 +15,13 @@ export default async function LoginPage({
     <div className="min-h-screen bg-[#7C3AED] flex flex-col font-sans">
       {/* Header */}
       <header className="bg-white px-4 md:px-12 py-4 flex items-center shadow-sm">
-        <a href="/" className="flex items-center gap-2 cursor-pointer">
+        <Link href="/" className="flex items-center gap-2 cursor-pointer">
           <div className="w-10 h-10 bg-[#7C3AED] rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-2xl">L</span>
           </div>
           <span className="font-bold text-2xl tracking-tight text-[#7C3AED]">LokaBeli</span>
           <span className="text-2xl font-medium text-gray-800 ml-2">Log in</span>
-        </a>
+        </Link>
       </header>
 
       {/* Main Content */}
@@ -77,7 +78,7 @@ export default async function LoginPage({
 
             <div className="pt-2 flex flex-col gap-3">
               <div className="flex justify-end">
-                <a href="/forgot-password" className="text-sm text-[#7C3AED] hover:underline">Lupa Password?</a>
+                <Link href="/forgot-password" className="text-sm text-[#7C3AED] hover:underline">Lupa Password?</Link>
               </div>
               <button
                 formAction={login}

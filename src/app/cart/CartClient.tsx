@@ -5,6 +5,7 @@ import { Store, Trash2, ShoppingCart, Minus, Plus, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { updateCartItemQty, deleteCartItem, toggleCartItemSelected, selectAllCartItems } from './actions'
 import { formatRupiah } from '@/lib/format'
+import Link from 'next/link'
 
 interface CartItemData {
   id: string
@@ -103,9 +104,9 @@ export default function CartClient({ initialItems }: CartClientProps) {
         </div>
         <h2 className="text-xl font-medium text-gray-800 mb-2">Keranjang belanjamu kosong</h2>
         <p className="text-gray-500 mb-6">Mungkin ini saat yang tepat untuk mencari produk impianmu!</p>
-        <a href="/" className="bg-[#7C3AED] text-white px-10 py-3 rounded-md font-medium inline-block hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20">
+        <Link href="/" className="bg-[#7C3AED] text-white px-10 py-3 rounded-md font-medium inline-block hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 hover:shadow-md shadow-[#7C3AED]/20">
           Mulai Belanja
-        </a>
+        </Link>
       </div>
     )
   }
@@ -178,9 +179,9 @@ export default function CartClient({ initialItems }: CartClientProps) {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <a href={`/product/${item.variant.product.id}`} className="text-sm text-gray-800 hover:text-[#7C3AED] line-clamp-2 leading-tight md:leading-relaxed">
+                      <Link href={`/product/${item.variant.product.id}`} className="text-sm text-gray-800 hover:text-[#7C3AED] line-clamp-2 leading-tight md:leading-relaxed">
                         {item.variant.product.name}
-                      </a>
+                      </Link>
                       <div className="text-xs text-gray-500 bg-gray-50 px-2 py-1 mt-1 md:mt-2 rounded border border-gray-100 inline-block">
                         Variasi: {item.variant.name}
                       </div>
@@ -281,14 +282,14 @@ export default function CartClient({ initialItems }: CartClientProps) {
               <div className="text-xs md:text-sm">Total ({totalQty} produk):</div>
               <div className="text-[#7C3AED] font-bold text-lg md:text-2xl transition-all leading-none">{formatRupiah(totalHarga)}</div>
             </div>
-            <a
+            <Link
               href="/checkout"
               className={`bg-[#7C3AED] text-white px-8 md:px-12 py-2.5 md:py-3.5 rounded-lg font-medium hover:bg-[#6D28D9] text-base md:text-lg text-center shadow-md shadow-[#7C3AED]/20 transition-all duration-200 active:scale-95 ${
                 selectedItems.length === 0 ? 'pointer-events-none !bg-gray-300 shadow-none' : ''
               }`}
             >
               Checkout ({selectedItems.length})
-            </a>
+            </Link>
           </div>
         </div>
       </div>

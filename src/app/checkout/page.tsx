@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import CheckoutClient from './CheckoutClient'
+import Link from 'next/link'
 
 export const revalidate = 0
 
@@ -95,9 +96,9 @@ export default async function CheckoutPage() {
       <div className="max-w-[1200px] mx-auto px-4 mt-6">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">
-          <a href="/" className="hover:text-[#7C3AED]">Beranda</a>
+          <Link href="/" className="hover:text-[#7C3AED]">Beranda</Link>
           <span>&gt;</span>
-          <a href="/cart" className="hover:text-[#7C3AED]">Keranjang</a>
+          <Link href="/cart" className="hover:text-[#7C3AED]">Keranjang</Link>
           <span>&gt;</span>
           <span className="text-gray-800 font-medium">Checkout</span>
         </div>

@@ -5,6 +5,7 @@ import { formatRupiah } from '@/lib/format'
 import { Store, Wallet, ArrowDownLeft, ArrowUpRight, Clock, CheckCircle2 } from 'lucide-react'
 import WithdrawalForm from './WithdrawalForm'
 import SellerBottomNav from '../SellerBottomNav'
+import Link from 'next/link'
 
 export const revalidate = 0
 
@@ -42,17 +43,17 @@ export default async function WalletPage() {
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
-        <a href="/seller" className="flex items-center gap-2 text-[#7C3AED]">
+        <Link href="/seller" className="flex items-center gap-2 text-[#7C3AED]">
           <Store className="w-6 h-6" />
           <span className="font-medium text-lg tracking-tight">LokaBeli Seller Centre</span>
-        </a>
+        </Link>
       </header>
 
       <div className="flex flex-1">
         <main className="flex-1 p-4 md:p-8 max-w-[1000px] mx-auto w-full">
           
           <div className="flex items-center gap-2 mb-6">
-            <a href="/seller" className="text-gray-500 hover:text-[#7C3AED] text-sm font-medium">Dashboard</a>
+            <Link href="/seller" className="text-gray-500 hover:text-[#7C3AED] text-sm font-medium">Dashboard</Link>
             <span className="text-gray-400">/</span>
             <span className="text-gray-800 text-sm font-medium">Saldo Toko</span>
           </div>

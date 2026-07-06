@@ -33,11 +33,11 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-gray-800 mb-5">Layanan Pelanggan</h3>
             <ul className="space-y-3 text-sm text-gray-500">
-              <li><a href="#" className="hover:text-[#7C3AED] transition">Bantuan & FAQ</a></li>
-              <li><a href="#" className="hover:text-[#7C3AED] transition">Lacak Pesanan</a></li>
-              <li><a href="#" className="hover:text-[#7C3AED] transition">Kebijakan Pengembalian</a></li>
-              <li><a href="#" className="hover:text-[#7C3AED] transition">Garansi Produk</a></li>
-              <li><a href="#" className="hover:text-[#7C3AED] transition">Hubungi Kami</a></li>
+              <li><Link href="#" className="hover:text-[#7C3AED] transition">Bantuan & FAQ</Link></li>
+              <li><Link href="#" className="hover:text-[#7C3AED] transition">Lacak Pesanan</Link></li>
+              <li><Link href="#" className="hover:text-[#7C3AED] transition">Kebijakan Pengembalian</Link></li>
+              <li><Link href="#" className="hover:text-[#7C3AED] transition">Garansi Produk</Link></li>
+              <li><Link href="#" className="hover:text-[#7C3AED] transition">Hubungi Kami</Link></li>
             </ul>
           </div>
 
@@ -126,9 +126,9 @@ export default function Footer() {
             © {new Date().getFullYear()} LokaBeli. All rights reserved.
           </p>
           <div className="flex items-center gap-4 text-xs text-gray-400">
-            <a href="#" className="hover:text-gray-600 transition">Syarat & Ketentuan</a>
+            <Link href="#" className="hover:text-gray-600 transition">Syarat & Ketentuan</Link>
             <span>•</span>
-            <a href="#" className="hover:text-gray-600 transition">Kebijakan Privasi</a>
+            <Link href="#" className="hover:text-gray-600 transition">Kebijakan Privasi</Link>
           </div>
         </div>
       </div>

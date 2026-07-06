@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Store, ArrowLeft } from 'lucide-react'
 import { updateProductAction } from '../../actions'
+import Link from 'next/link'
 
 export const revalidate = 0
 
@@ -40,7 +41,7 @@ export default async function EditProductPage({ params }: { params: { id: string
   return (
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col">
       <header className="bg-white shadow-sm h-14 flex items-center px-6 sticky top-0 z-20 gap-4">
-        <a href="/seller" className="text-gray-500 hover:text-[#7C3AED] transition"><ArrowLeft className="w-5 h-5"/></a>
+        <Link href="/seller" className="text-gray-500 hover:text-[#7C3AED] transition"><ArrowLeft className="w-5 h-5"/></Link>
         <div className="flex items-center gap-2 text-[#7C3AED]">
           <Store className="w-5 h-5" />
           <span className="font-medium text-lg tracking-tight">Seller Centre</span>
@@ -94,7 +95,7 @@ export default async function EditProductPage({ params }: { params: { id: string
               <div></div>
               <div className="flex gap-4">
                  <button type="submit" className="bg-[#7C3AED] px-8 py-2 text-white font-medium rounded-sm shadow hover:bg-[#6D28D9] transition">Simpan Perubahan</button>
-                 <a href="/seller" className="px-8 py-2 text-gray-600 font-medium border border-gray-300 rounded-sm hover:bg-gray-50 transition">Batal</a>
+                 <Link href="/seller" className="px-8 py-2 text-gray-600 font-medium border border-gray-300 rounded-sm hover:bg-gray-50 transition">Batal</Link>
               </div>
             </div>
 

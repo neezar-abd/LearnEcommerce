@@ -9,6 +9,7 @@ import {
 import ProductTableActions from '../ProductTableActions'
 import { formatRupiah } from '@/lib/format'
 import SellerBottomNav from '../SellerBottomNav'
+import Link from 'next/link'
 
 export const revalidate = 0
 
@@ -86,10 +87,10 @@ export default async function SellerPage() {
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
-        <a href="/" className="flex items-center gap-2 text-[#7C3AED] min-w-0">
+        <Link href="/" className="flex items-center gap-2 text-[#7C3AED] min-w-0">
           <Store className="w-6 h-6 flex-shrink-0" />
           <span className="font-medium text-base md:text-lg tracking-tight truncate">LokaBeli<span className="hidden sm:inline"> Seller Centre</span></span>
-        </a>
+        </Link>
         <div className="flex items-center gap-3 md:gap-6 text-gray-500 flex-shrink-0">
           <Bell className="w-5 h-5 cursor-pointer hover:text-[#7C3AED]" />
           <div className="flex items-center gap-2 cursor-pointer border-l pl-3 md:pl-6 border-gray-200">
@@ -110,7 +111,7 @@ export default async function SellerPage() {
               <ClipboardList className="w-4 h-4" /> Pesanan
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
-              <a href="/seller/orders" className="hover:text-[#7C3AED] cursor-pointer transition">Pesanan Saya</a>
+              <Link href="/seller/orders" className="hover:text-[#7C3AED] cursor-pointer transition">Pesanan Saya</Link>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Pengiriman Massal</span>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Pengaturan Pengiriman</span>
             </div>
@@ -121,7 +122,7 @@ export default async function SellerPage() {
               <Package className="w-4 h-4" /> Produk
             </div>
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2 font-medium">
-              <a href="/seller" className="text-[#7C3AED] cursor-pointer transition hover:text-[#6D28D9]">Produk Saya</a>
+              <Link href="/seller" className="text-[#7C3AED] cursor-pointer transition hover:text-[#6D28D9]">Produk Saya</Link>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Tambah Produk Baru</span>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Manajemen Merek</span>
             </div>
@@ -144,9 +145,9 @@ export default async function SellerPage() {
             <div className="flex flex-col text-[13px] text-gray-600 pl-6 space-y-2">
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Profil Toko</span>
               <span className="hover:text-[#7C3AED] cursor-pointer transition">Dekorasi Toko</span>
-              <a href="/" className="hover:text-[#7C3AED] cursor-pointer transition text-gray-400 mt-4 border-t pt-2 block">
+              <Link href="/" className="hover:text-[#7C3AED] cursor-pointer transition text-gray-400 mt-4 border-t pt-2 block">
                 Kembali ke Marketplace
-              </a>
+              </Link>
             </div>
           </div>
         </aside>

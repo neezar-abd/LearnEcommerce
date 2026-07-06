@@ -8,6 +8,7 @@ import prisma from '@/lib/prisma';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { formatRupiah } from '@/lib/format';
+import Link from 'next/link'
 
 
 
@@ -113,7 +114,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           </div>
           <div className="flex overflow-x-auto md:grid md:grid-cols-6 lg:grid-cols-8 gap-4 custom-scrollbar pb-2">
             {categories.map((cat) => (
-              <a href={`/?categoryId=${cat.id}`} key={cat.id} className={`flex-none w-[80px] md:w-auto p-3 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all rounded-xl border border-transparent ${categoryFilter === cat.id ? 'bg-[#FAF5FF] border-[#7C3AED]' : 'hover:bg-gray-50 hover:border-gray-100'}`}>
+              <Link href={`/?categoryId=${cat.id}`} key={cat.id} className={`flex-none w-[80px] md:w-auto p-3 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all rounded-xl border border-transparent ${categoryFilter === cat.id ? 'bg-[#FAF5FF] border-[#7C3AED]' : 'hover:bg-gray-50 hover:border-gray-100'}`}>
                 <div className={`w-12 h-12 flex items-center justify-center rounded-full transition-colors ${categoryFilter === cat.id ? 'bg-[#7C3AED] text-white' : 'bg-gray-100 text-gray-500'}`}>
                   {cat.icon && iconMap[cat.icon] ? (
                     <div className={categoryFilter === cat.id ? '[&>svg]:text-white' : '[&>svg]:text-gray-600'}>
@@ -124,7 +125,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                   )}
                 </div>
                 <span className={`text-[12px] text-center leading-tight line-clamp-2 ${categoryFilter === cat.id ? 'text-[#7C3AED] font-bold' : 'text-gray-600'}`}>{cat.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -143,7 +144,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
             {products.length > 0 ? products.map((product) => (
-               <a href={`/product/${product.id}`} key={product.id} className="bg-white border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-pointer rounded-xl overflow-hidden flex flex-col h-full block pb-2">
+               <Link href={`/product/${product.id}`} key={product.id} className="bg-white border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-pointer rounded-xl overflow-hidden flex flex-col h-full block pb-2">
                 <div className="aspect-square bg-gray-50 w-full relative overflow-hidden shrink-0">
                   <img src={product.images[0]?.url || 'https://via.placeholder.com/300'} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
                 </div>
@@ -160,7 +161,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             )) : (
               <div className="col-span-full py-20 flex flex-col items-center justify-center text-center bg-white rounded-sm border border-gray-100 shadow-sm mt-4">
                 <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
@@ -168,9 +169,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">Produk Tidak Ditemukan</h3>
                 <p className="text-gray-500 max-w-sm mx-auto mb-8">Maaf, kami tidak dapat menemukan produk yang Anda cari. Coba gunakan kata kunci lain atau kembali berbelanja.</p>
-                <a href="/" className="px-8 py-3 bg-[#7C3AED] text-white rounded-md font-medium hover:bg-[#6D28D9] shadow-sm transition-all hover:shadow hover:-translate-y-0.5">
+                <Link href="/" className="px-8 py-3 bg-[#7C3AED] text-white rounded-md font-medium hover:bg-[#6D28D9] shadow-sm transition-all hover:shadow hover:-translate-y-0.5">
                   Lihat Semua Produk
-                </a>
+                </Link>
               </div>
             )}
           </div>
@@ -178,14 +179,14 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           {totalPages > 1 && (
             <div className="mt-8 flex justify-center items-center gap-2 pb-8">
               {currentPage > 1 && (
-                <a href={buildPageUrl(currentPage - 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#7C3AED] hover:text-[#7C3AED] transition-colors shadow-sm">
+                <Link href={buildPageUrl(currentPage - 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#7C3AED] hover:text-[#7C3AED] transition-colors shadow-sm">
                   &laquo; Sebelumnya
-                </a>
+                </Link>
               )}
               {Array.from({ length: totalPages }, (_, i) => i + 1)
                 .filter(p => Math.abs(p - currentPage) <= 2)
                 .map(p => (
-                  <a
+                  <Link
                     key={p}
                     href={buildPageUrl(p)}
                     className={`w-10 h-10 flex items-center justify-center rounded-sm text-sm border shadow-sm transition-colors ${
@@ -195,12 +196,12 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                     }`}
                   >
                     {p}
-                  </a>
+                  </Link>
                 ))}
               {currentPage < totalPages && (
-                <a href={buildPageUrl(currentPage + 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#7C3AED] hover:text-[#7C3AED] transition-colors shadow-sm">
+                <Link href={buildPageUrl(currentPage + 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#7C3AED] hover:text-[#7C3AED] transition-colors shadow-sm">
                   Selanjutnya &raquo;
-                </a>
+                </Link>
               )}
             </div>
           )}
