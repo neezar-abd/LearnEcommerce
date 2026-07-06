@@ -2,16 +2,15 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { LayoutDashboard, Package, ClipboardList, Wallet } from 'lucide-react'
+import { LayoutDashboard, MessageCircle, User } from 'lucide-react'
 
 export default function SellerBottomNav() {
   const pathname = usePathname()
 
   const tabs = [
-    { name: 'Dashboard', href: '/seller', icon: LayoutDashboard },
-    { name: 'Pesanan', href: '/seller/orders', icon: ClipboardList },
-    { name: 'Dompet', href: '/seller/wallet', icon: Wallet },
-    // Maybe add a chat or settings here later
+    { name: 'Beranda', href: '/seller', icon: LayoutDashboard },
+    { name: 'Chat', href: '/messages', icon: MessageCircle },
+    { name: 'Saya', href: '/buyer/profile', icon: User },
   ]
 
   return (

@@ -1,14 +1,14 @@
 import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
-import { createStoreAction, addProductAction, updateStoreCityAction } from './actions'
+import { createStoreAction, addProductAction, updateStoreCityAction } from '../actions'
 import CitySearch from '@/components/CitySearch'
 import {
   Store, Package, LayoutDashboard, LogOut, ClipboardList, TrendingUp, Settings, Navigation, Bell, Search
 } from 'lucide-react'
-import ProductTableActions from './ProductTableActions'
+import ProductTableActions from '../ProductTableActions'
 import { formatRupiah } from '@/lib/format'
-import SellerBottomNav from './SellerBottomNav'
+import SellerBottomNav from '../SellerBottomNav'
 
 export const revalidate = 0
 
@@ -154,106 +154,7 @@ export default async function SellerPage() {
         {/* MAIN CONTENT WORKSPACE */}
         <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
 
-          {/* DESKTOP MATRIKS / STATUS PESANAN ALERT */}
-          <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-xl shadow-sm border border-gray-100 mb-6 text-center p-4">
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
-              <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'PACKING').length}</span>
-              <span className="text-xs text-gray-500">Perlu Diproses</span>
-            </a>
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
-              <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'SHIPPED').length}</span>
-              <span className="text-xs text-gray-500">Sedang Dikirim</span>
-            </a>
-            <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
-              <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'COMPLETED').length}</span>
-              <span className="text-xs text-gray-500">Selesai</span>
-            </a>
-            <a href="/seller/wallet" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
-              <span className="text-xl font-bold text-green-600">{formatRupiah(Number(store.wallet?.balance || 0))}</span>
-              <span className="text-xs text-gray-500">Saldo Toko</span>
-            </a>
-          </div>
-
-          {/* MOBILE DASHBOARD HUB */}
-          <div className="md:hidden mb-6">
-            {/* Status Pesanan */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4">
-              <div className="flex justify-between items-center mb-3">
-                <span className="font-semibold text-sm text-gray-800">Status Pesanan</span>
-                <a href="/seller/orders" className="text-xs text-[#7C3AED] hover:underline">Lihat Riwayat &gt;</a>
-              </div>
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <a href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
-                  <span className="text-xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'PACKING').length}</span>
-                  <span className="text-[10px] text-gray-500 leading-tight">Perlu Dikirim</span>
-                </a>
-                <a href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
-                  <span className="text-xl font-bold text-[#2673dd]">0</span>
-                  <span className="text-[10px] text-gray-500 leading-tight">Pembatalan</span>
-                </a>
-                <a href="/seller/orders" className="flex flex-col gap-1 items-center justify-center py-2">
-                  <span className="text-xl font-bold text-[#2673dd]">0</span>
-                  <span className="text-[10px] text-gray-500 leading-tight">Pengembalian</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Menu Fitur Utama */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-              <span className="font-semibold text-sm text-gray-800 block mb-4">Fitur Toko</span>
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <a href="/seller/products" className="flex flex-col gap-2 items-center justify-center group">
-                  <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-[#7C3AED] group-hover:scale-105 transition-transform">
-                    <Package className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] font-medium text-gray-700">Produk</span>
-                </a>
-                <a href="/seller/orders" className="flex flex-col gap-2 items-center justify-center group">
-                  <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 group-hover:scale-105 transition-transform">
-                    <ClipboardList className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] font-medium text-gray-700">Pesanan</span>
-                </a>
-                <a href="/seller/wallet" className="flex flex-col gap-2 items-center justify-center group">
-                  <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center text-green-600 group-hover:scale-105 transition-transform">
-                    <Wallet className="w-6 h-6" />
-                  </div>
-                  <span className="text-[11px] font-medium text-gray-700">Keuangan</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* CITY MISSING WARNING BANNER */}
-          {!store.cityId && (
-            <div className="bg-orange-50 border border-orange-200 rounded-sm p-4 mb-6 flex flex-col sm:flex-row gap-4 items-start">
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-orange-700 mb-1">⚠️ Kota Toko Belum Diset</p>
-                <p className="text-xs text-orange-600">Pembeli tidak bisa melihat ongkos kirim dari toko kamu. Set kota toko sekarang supaya sistem bisa menghitung ongkir otomatis.</p>
-              </div>
-              <form action={updateStoreCityAction} className="flex gap-2 items-end flex-shrink-0 w-full sm:w-80">
-                <div className="flex-1">
-                  <CitySearch name="cityId" placeholder="Cari kota toko..." required />
-                </div>
-                <button type="submit" className="bg-[#7C3AED] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#6D28D9] transition-all duration-200 active:scale-95 whitespace-nowrap">
-                  Simpan
-                </button>
-              </form>
-            </div>
-          )}
-          {store.cityId && (
-            <div className="bg-green-50 border border-green-200 rounded-sm px-4 py-2.5 mb-6 flex items-center justify-between">
-              <p className="text-xs text-green-700">✓ Kota toko sudah diset (ID: {store.cityId}) — Ongkir bisa dihitung otomatis</p>
-              <form action={updateStoreCityAction} className="flex gap-2 items-center">
-                <CitySearch name="cityId" placeholder="Ganti kota..." />
-                <button type="submit" className="text-xs text-green-700 border border-green-300 px-2 py-1 rounded hover:bg-green-100 transition">
-                  Update
-                </button>
-              </form>
-            </div>
-          )}
-
-          <div className="hidden md:grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {/* DAFTAR PRODUK (UI TABLE STYLE LENGKAP) - 2 Kolom Kiri */}
             <div className="col-span-1 lg:col-span-2 bg-white rounded shadow-sm border border-gray-100">
