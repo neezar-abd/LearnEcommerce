@@ -4,7 +4,8 @@ import { getConversations } from '@/app/actions/chat'
 import ChatBox from '@/components/chat/ChatBox'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { User, Store } from 'lucide-react'
+import { User, Store, Bell } from 'lucide-react'
+import SellerBottomNav from '../SellerBottomNav'
 
 export const revalidate = 0
 
@@ -26,8 +27,21 @@ export default async function SellerChatPage({ searchParams }: { searchParams: P
   const { id: activeConversationId } = await searchParams
 
   return (
-    <div className="max-w-[1200px] mx-auto px-4 py-8">
-      <h1 className="text-2xl font-medium text-gray-800 mb-6">Pesan Toko</h1>
+    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
+      {/* SELLER HEADER TOPBAR */}
+      <header className="bg-white shadow-sm h-14 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
+        <div className="flex items-center gap-4">
+          <a href="/seller" className="text-gray-600 hover:text-[#7C3AED]">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </a>
+          <h1 className="font-semibold text-gray-800">Pesan Pelanggan</h1>
+        </div>
+        <div className="flex items-center gap-3 md:gap-6 text-gray-500 flex-shrink-0">
+          <Bell className="w-5 h-5 cursor-pointer hover:text-[#7C3AED]" />
+        </div>
+      </header>
+
+      <div className="max-w-[1200px] w-full mx-auto px-4 py-4 md:py-8 flex-1 flex flex-col">
       
       <div className="flex bg-white border border-gray-200 rounded-sm overflow-hidden h-[600px] shadow-sm">
         
@@ -82,6 +96,8 @@ export default async function SellerChatPage({ searchParams }: { searchParams: P
           )}
         </div>
       </div>
+      </div>
+      <SellerBottomNav />
     </div>
   )
 }

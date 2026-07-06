@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { Store, Package, ClipboardList, Bell, MapPin, LayoutDashboard, Zap, CheckCircle, TrendingUp, Settings } from 'lucide-react'
 import { updateOrderStatusAction } from './actions'
 import GenerateResiButton from './GenerateResiButton'
-import { formatRupiah } from '@/lib/format'
+import { formatRupiah, formatDate } from '@/lib/format'
 import SellerBottomNav from '../SellerBottomNav'
 
 export const revalidate = 0
@@ -54,19 +54,15 @@ export default async function SellerOrdersPage() {
   return (
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
-      <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
-        <a href="/" className="flex items-center gap-2 text-[#7C3AED]">
-          <Store className="w-6 h-6" />
-          <span className="font-medium text-lg tracking-tight">LokaBeli Seller Centre</span>
-        </a>
-        <div className="flex items-center gap-6 text-gray-500">
+      <header className="bg-white shadow-sm h-14 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
+        <div className="flex items-center gap-4">
+          <a href="/seller" className="text-gray-600 hover:text-[#7C3AED]">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </a>
+          <h1 className="font-semibold text-gray-800">Pesanan Saya</h1>
+        </div>
+        <div className="flex items-center gap-3 md:gap-6 text-gray-500 flex-shrink-0">
           <Bell className="w-5 h-5 cursor-pointer hover:text-[#7C3AED]" />
-          <div className="flex items-center gap-2 cursor-pointer border-l pl-6 border-gray-200">
-            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
-              {store.name.charAt(0)}
-            </div>
-            <span className="text-sm font-medium text-gray-700">{store.name}</span>
-          </div>
         </div>
       </header>
 

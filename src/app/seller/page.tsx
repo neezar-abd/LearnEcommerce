@@ -85,18 +85,18 @@ export default async function SellerPage() {
   return (
     <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
-      <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
-        <a href="/" className="flex items-center gap-2 text-[#7C3AED]">
-          <Store className="w-6 h-6" />
-          <span className="font-medium text-lg tracking-tight">LokaBeli Seller Centre</span>
+      <header className="bg-white shadow-sm h-14 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20">
+        <a href="/" className="flex items-center gap-2 text-[#7C3AED] min-w-0">
+          <Store className="w-6 h-6 flex-shrink-0" />
+          <span className="font-medium text-base md:text-lg tracking-tight truncate">LokaBeli<span className="hidden sm:inline"> Seller Centre</span></span>
         </a>
-        <div className="flex items-center gap-6 text-gray-500">
+        <div className="flex items-center gap-3 md:gap-6 text-gray-500 flex-shrink-0">
           <Bell className="w-5 h-5 cursor-pointer hover:text-[#7C3AED]" />
-          <div className="flex items-center gap-2 cursor-pointer border-l pl-6 border-gray-200">
-            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
+          <div className="flex items-center gap-2 cursor-pointer border-l pl-3 md:pl-6 border-gray-200">
+            <div className="w-7 h-7 md:w-8 md:h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
                {store.name.charAt(0)}
             </div>
-            <span className="text-sm font-medium text-gray-700">{store.name}</span>
+            <span className="text-sm font-medium text-gray-700 hidden sm:block max-w-[100px] md:max-w-[150px] truncate">{store.name}</span>
           </div>
         </div>
       </header>

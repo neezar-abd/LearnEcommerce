@@ -9,7 +9,7 @@ export default function SellerBottomNav() {
 
   const tabs = [
     { name: 'Beranda', href: '/seller', icon: LayoutDashboard },
-    { name: 'Chat', href: '/messages', icon: MessageCircle },
+    { name: 'Chat', href: '/seller/chat', icon: MessageCircle },
     { name: 'Saya', href: '/buyer/profile', icon: User },
   ]
 

@@ -6,11 +6,15 @@ import { getConversations, startConversation } from '@/app/actions/chat'
 import ChatBox from './ChatBox'
 import Link from 'next/link'
 import useSWR from 'swr'
+import { usePathname } from 'next/navigation'
 
 export default function FloatingChatClient({ currentProfileId }: { currentProfileId: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const [activeConversationId, setActiveConversationId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const pathname = usePathname()
+
+  if (pathname.startsWith('/seller')) return null
 
   // Gunakan SWR untuk fetching & caching daftar chat secara otomatis
   const { data: conversations = [], mutate: mutateConversations } = useSWR(
