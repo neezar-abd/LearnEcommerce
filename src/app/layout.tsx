@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingChatWrapper from "@/components/chat/FloatingChatWrapper";
+import BuyerBottomNav from "@/components/BuyerBottomNav";
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -25,9 +26,10 @@ export default function RootLayout({
       className={`${jakartaSans.variable} font-sans h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col pb-16 md:pb-0">
         {children}
         <FloatingChatWrapper />
+        <BuyerBottomNav />
       </body>
     </html>
   );

@@ -109,7 +109,7 @@ export default function NotificationDropdown({ profileId }: { profileId: string 
       {/* Bell Button */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95 hidden md:block"
+        className="relative p-2 rounded-full hover:bg-gray-100 hover:text-[#7C3AED] transition-all duration-200 active:scale-95"
       >
         <Bell className={`w-6 h-6 ${isBumping ? 'animate-bounce text-[#7C3AED]' : ''}`} />
         
