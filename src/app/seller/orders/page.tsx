@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { Store, Package, ClipboardList, Bell, MapPin, LayoutDashboard, Zap, CheckCircle, TrendingUp, Settings } from 'lucide-react'
 import { updateOrderStatusAction } from './actions'
 import GenerateResiButton from './GenerateResiButton'
-import { formatRupiah, formatDate } from '@/lib/format'
+import { formatRupiah } from '@/lib/format'
 import SellerBottomNav from '../SellerBottomNav'
 
 export const revalidate = 0
