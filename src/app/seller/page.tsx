@@ -175,10 +175,10 @@ export default async function SellerPage() {
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'COMPLETED').length}</span>
               <span className="text-xs text-gray-500">Selesai</span>
             </a>
-            <div className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
+            <a href="/seller/wallet" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-xl font-bold text-green-600">{formatRupiah(Number(store.wallet?.balance || 0))}</span>
               <span className="text-xs text-gray-500">Saldo Toko</span>
-            </div>
+            </a>
           </div>
 
           {/* CITY MISSING WARNING BANNER */}
