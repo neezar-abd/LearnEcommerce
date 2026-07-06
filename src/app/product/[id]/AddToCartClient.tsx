@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Minus, Plus } from 'lucide-react'
+import { ShoppingCart, Minus, Plus, Loader2 } from 'lucide-react'
 import { addToCart } from '@/app/actions/cart'
 import { useRouter } from 'next/navigation'
 import WishlistButton from '@/components/WishlistButton'
@@ -137,7 +137,7 @@ export default function AddToCartClient({ variants, productId, productName }: { 
           disabled={isLoading || isBuyNowLoading || selectedVariant.stock === 0}
           className="w-full bg-[#148356] text-white py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:bg-[#116b47] transition-colors disabled:opacity-50"
         >
-          <span className="font-bold">+</span> Keranjang
+          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><span className="font-bold">+</span> Keranjang</>}
         </button>
         <button 
           type="button"
@@ -145,7 +145,7 @@ export default function AddToCartClient({ variants, productId, productName }: { 
           disabled={isBuyNowLoading || isLoading || selectedVariant.stock === 0}
           className="w-full border border-[#148356] text-[#148356] py-2.5 rounded-lg font-medium text-sm hover:bg-[#FAF5FF] transition-colors disabled:opacity-50"
         >
-          Beli Langsung
+          {isBuyNowLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Beli Langsung'}
         </button>
       </div>
 
