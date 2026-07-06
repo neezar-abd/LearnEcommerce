@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { formatRupiah } from '@/lib/format'
 import { Store, Wallet, ArrowDownLeft, ArrowUpRight, Clock, CheckCircle2 } from 'lucide-react'
 import WithdrawalForm from './WithdrawalForm'
+import SellerBottomNav from '../SellerBottomNav'
 
 export const revalidate = 0
 
@@ -38,7 +39,7 @@ export default async function WalletPage() {
   const currentBalance = Number(wallet?.balance || 0)
 
   return (
-    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col">
+    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
         <a href="/seller" className="flex items-center gap-2 text-[#7C3AED]">
@@ -131,6 +132,7 @@ export default async function WalletPage() {
 
         </main>
       </div>
+      <SellerBottomNav />
     </div>
   )
 }

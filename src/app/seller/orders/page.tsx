@@ -5,6 +5,7 @@ import { Store, Package, ClipboardList, Bell, MapPin, LayoutDashboard, Zap, Chec
 import { updateOrderStatusAction } from './actions'
 import GenerateResiButton from './GenerateResiButton'
 import { formatRupiah } from '@/lib/format'
+import SellerBottomNav from '../SellerBottomNav'
 
 export const revalidate = 0
 
@@ -51,15 +52,7 @@ export default async function SellerOrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col">
-      {/* MOBILE WARNING OVERLAY */}
-      <div className="md:hidden fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center p-6 text-center">
-        <LayoutDashboard className="w-16 h-16 text-[#7C3AED] mb-4" />
-        <h2 className="text-xl font-bold text-gray-800 mb-2">Buka di Desktop</h2>
-        <p className="text-gray-500 text-sm">Untuk pengalaman manajemen toko yang lebih baik dan optimal, silakan buka Seller Centre melalui perangkat Desktop atau Laptop.</p>
-        <a href="/" className="mt-8 text-[#7C3AED] font-medium border border-[#7C3AED] px-6 py-2 rounded">Kembali ke Beranda</a>
-      </div>
-
+    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
         <a href="/" className="flex items-center gap-2 text-[#7C3AED]">
@@ -301,6 +294,7 @@ export default async function SellerOrdersPage() {
           </div>
         </main>
       </div>
+      <SellerBottomNav />
     </div>
   )
 }

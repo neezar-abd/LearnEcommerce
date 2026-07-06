@@ -23,11 +23,11 @@ export default function ProductTableActions({ productId }: { productId: string }
   }
 
   return (
-    <div className="col-span-2 flex items-center justify-end gap-3 text-[#2673dd] font-medium text-xs pr-2">
-      <button onClick={handleEdit} disabled={isDeleting} className="hover:underline">
+    <div className="flex items-center justify-end md:justify-end gap-4 text-[#7C3AED] font-semibold text-xs md:pr-2">
+      <button onClick={handleEdit} disabled={isDeleting} className="hover:underline bg-purple-50 px-3 py-1.5 rounded-full">
         Ubah
       </button>
-      <button onClick={handleDelete} disabled={isDeleting} className="hover:underline hover:text-red-600 disabled:opacity-50">
+      <button onClick={handleDelete} disabled={isDeleting} className="hover:underline text-red-600 bg-red-50 px-3 py-1.5 rounded-full disabled:opacity-50">
         {isDeleting ? 'Menghapus...' : 'Hapus'}
       </button>
     </div>

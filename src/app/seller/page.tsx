@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import ProductTableActions from './ProductTableActions'
 import { formatRupiah } from '@/lib/format'
+import SellerBottomNav from './SellerBottomNav'
 
 export const revalidate = 0
 
@@ -82,15 +83,7 @@ export default async function SellerPage() {
   const categories = await prisma.category.findMany()
 
   return (
-    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col">
-      {/* MOBILE WARNING OVERLAY */}
-      <div className="md:hidden fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center p-6 text-center">
-        <LayoutDashboard className="w-16 h-16 text-[#7C3AED] mb-4" />
-        <h2 className="text-xl font-bold text-gray-800 mb-2">Buka di Desktop</h2>
-        <p className="text-gray-500 text-sm">Untuk pengalaman manajemen toko yang lebih baik dan optimal, silakan buka Seller Centre melalui perangkat Desktop atau Laptop.</p>
-        <a href="/" className="mt-8 text-[#7C3AED] font-medium border border-[#7C3AED] px-6 py-2 rounded">Kembali ke Beranda</a>
-      </div>
-
+    <div className="min-h-screen bg-[#F6F6F6] font-sans flex flex-col pb-20 md:pb-0">
       {/* SELLER HEADER TOPBAR */}
       <header className="bg-white shadow-sm h-14 flex items-center justify-between px-6 sticky top-0 z-20">
         <a href="/" className="flex items-center gap-2 text-[#7C3AED]">
@@ -159,10 +152,10 @@ export default async function SellerPage() {
         </aside>
 
         {/* MAIN CONTENT WORKSPACE */}
-        <main className="flex-1 p-6 overflow-x-hidden">
+        <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
 
           {/* MATRIKS / STATUS PESANAN ALERT */}
-          <div className="grid grid-cols-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 mb-6 text-center divide-x divide-gray-100 p-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-xl shadow-sm border border-gray-100 mb-6 text-center p-4">
             <a href="/seller/orders" className="flex flex-col gap-1 cursor-pointer hover:bg-gray-50 py-2 rounded-lg hover:scale-105 transition-all duration-300">
               <span className="text-2xl font-bold text-[#2673dd]">{store.orders.filter(o => o.status === 'PACKING').length}</span>
               <span className="text-xs text-gray-500">Perlu Diproses</span>
@@ -222,7 +215,7 @@ export default async function SellerPage() {
                 </div>
               </div>
               
-              <div className="bg-[#f6f6f6] grid grid-cols-12 gap-4 p-3 text-xs font-medium text-gray-500 border-b border-gray-100">
+              <div className="bg-[#f6f6f6] hidden md:grid grid-cols-12 gap-4 p-3 text-xs font-medium text-gray-500 border-b border-gray-100">
                 <div className="col-span-6 pl-2">Produk</div>
                 <div className="col-span-2">Harga</div>
                 <div className="col-span-2">Stok</div>
@@ -237,23 +230,27 @@ export default async function SellerPage() {
               ) : (
                  <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
                    {store.products.map(product => (
-                     <div key={product.id} className="grid grid-cols-12 gap-4 p-4 text-sm text-gray-700 hover:bg-gray-50 transition">
+                     <div key={product.id} className="flex flex-col md:grid md:grid-cols-12 gap-3 md:gap-4 p-4 text-sm text-gray-700 hover:bg-gray-50 transition border-b md:border-b-0 last:border-0 border-gray-100">
                        
-                       <div className="col-span-6 flex gap-3">
-                         <div className="w-12 h-12 bg-white border border-gray-200 object-cover flex-shrink-0 rounded-sm overflow-hidden">
+                       <div className="md:col-span-6 flex gap-3">
+                         <div className="w-16 h-16 md:w-12 md:h-12 bg-white border border-gray-200 object-cover flex-shrink-0 rounded-md md:rounded-sm overflow-hidden">
                            <img src={product.images[0]?.url || 'https://via.placeholder.com/150'} alt={product.name} className="w-full h-full object-cover" />
                          </div>
-                         <div className="flex flex-col justify-center">
-                           <span className="font-medium text-gray-800 line-clamp-1" title={product.name}>{product.name}</span>
-                           <span className="text-[11px] text-gray-400 mt-0.5">Kategori: {product.category.name}</span>
+                         <div className="flex flex-col justify-center flex-1">
+                           <span className="font-medium text-gray-800 line-clamp-2 md:line-clamp-1" title={product.name}>{product.name}</span>
+                           <span className="text-[11px] text-gray-400 mt-0.5 mb-1 md:mb-0">Kategori: {product.category.name}</span>
+                           <div className="md:hidden flex gap-3 text-xs mt-1">
+                             <div className="font-semibold text-[#7C3AED]">{formatRupiah(Number(product.variants[0]?.price || 0))}</div>
+                             <div className="text-gray-500 border-l pl-3">Stok: {product.variants[0]?.stock}</div>
+                           </div>
                          </div>
                        </div>
 
-                       <div className="col-span-2 flex items-center font-medium">
+                       <div className="hidden md:flex col-span-2 items-center font-medium">
                          {formatRupiah(Number(product.variants[0]?.price || 0))}
                        </div>
 
-                       <div className="col-span-2 flex items-center">
+                       <div className="hidden md:flex col-span-2 items-center">
                          {product.variants[0]?.stock === 0 ? (
                            <span className="text-[#7C3AED] font-medium text-xs bg-red-50 px-1.5 py-0.5 rounded">Habis</span>
                          ) : (
@@ -261,8 +258,14 @@ export default async function SellerPage() {
                          )}
                        </div>
 
-                       {/* Use our new client component and pass the ID */}
-                       <ProductTableActions productId={product.id} />
+                       <div className="hidden md:block col-span-2">
+                         <ProductTableActions productId={product.id} />
+                       </div>
+                       
+                       {/* Mobile Actions */}
+                       <div className="md:hidden mt-2 pt-3 border-t border-gray-50">
+                         <ProductTableActions productId={product.id} />
+                       </div>
                      </div>
                    ))}
                  </div>
@@ -326,6 +329,7 @@ export default async function SellerPage() {
           </div>
         </main>
       </div>
+      <SellerBottomNav />
     </div>
   )
 }
