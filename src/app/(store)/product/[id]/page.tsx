@@ -4,7 +4,6 @@ import prisma from '@/lib/prisma'
 import { createClient } from '@/utils/supabase/server'
 import { ShoppingCart, Store as StoreIcon, Star, CheckCircle } from 'lucide-react'
 import AddToCartClient from './AddToCartClient'
-import Navbar from '@/components/Navbar'
 import ChatSellerButton from './ChatSellerButton'
 import { formatRupiah } from '@/lib/format'
 
@@ -54,8 +53,6 @@ export default async function ProductDetailPage({
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-20">
-      <Navbar />
-
       {/* BERBREADCRUMB */}
       <div className="max-w-[1200px] mx-auto px-4 py-4 text-sm text-gray-500">
         LokaBeli &gt; {product.category.name} &gt; <span className="text-gray-800">{product.name}</span>

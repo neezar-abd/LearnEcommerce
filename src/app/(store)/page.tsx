@@ -5,8 +5,6 @@ import {
   Watch, Pill, Guitar, Utensils, Sparkles, Search, ShoppingCart
 } from 'lucide-react';
 import prisma from '@/lib/prisma';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { formatRupiah } from '@/lib/format';
 import Link from 'next/link'
 
@@ -76,8 +74,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-10">
-      <Navbar searchQuery={searchQuery} />
-
       <main className="max-w-[1200px] mx-auto px-4 mt-8 space-y-6">
         
         {/* Banner Section */}
@@ -209,7 +205,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
       </main>
 
-      <Footer />
-    </div>
+      </div>
   );
 }

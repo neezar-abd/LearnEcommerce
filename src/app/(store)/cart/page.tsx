@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
-import Navbar from '@/components/Navbar'
 import CartClient from './CartClient'
 
 export const revalidate = 0
@@ -57,7 +56,6 @@ export default async function CartPage() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-32">
-      <Navbar />
       <div className="max-w-[1200px] mx-auto px-4 mt-6">
         <div className="flex items-center gap-3 mb-4">
           <h1 className="text-lg font-semibold text-gray-800">Keranjang Belanja</h1>

@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
-import Navbar from '@/components/Navbar'
 import CheckoutClient from './CheckoutClient'
 import Link from 'next/link'
 
@@ -91,8 +90,6 @@ export default async function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-20">
-      <Navbar />
-
       <div className="max-w-[1200px] mx-auto px-4 mt-6">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">

@@ -3,8 +3,9 @@ import { Search, ShoppingCart, Mail, User } from 'lucide-react';
 import prisma from '@/lib/prisma';
 import NotificationDropdown from './NotificationDropdown';
 import Link from 'next/link'
+import SearchBar from './SearchBar';
 
-export default async function Navbar({ searchQuery }: { searchQuery?: string }) {
+export default async function Navbar() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -43,18 +44,7 @@ export default async function Navbar({ searchQuery }: { searchQuery?: string }) 
 
         {/* Search Bar */}
         <div className="flex-1 max-w-2xl">
-          <form action="/" method="GET" className="flex items-center w-full bg-white border border-gray-300 rounded-md overflow-hidden focus-within:border-[#7C3AED] focus-within:ring-1 focus-within:ring-[#7C3AED] focus-within:shadow-md transition-all duration-300">
-            <div className="pl-3 text-gray-400">
-              <Search className="w-5 h-5" />
-            </div>
-            <input 
-              type="text" 
-              name="q"
-              defaultValue={searchQuery}
-              placeholder="Cari buku bekas, novel..." 
-              className="w-full px-3 py-2 text-sm text-gray-800 outline-none"
-            />
-          </form>
+          <SearchBar />
         </div>
 
         {/* Icons & Profile */}

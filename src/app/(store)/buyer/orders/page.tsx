@@ -3,7 +3,6 @@ import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Package } from 'lucide-react'
 import Link from 'next/link'
-import Navbar from '@/components/Navbar'
 import OrderCard from './OrderCard'
 
 export const revalidate = 0
@@ -66,8 +65,6 @@ export default async function BuyerOrdersPage({ searchParams }: { searchParams: 
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-20">
-      <Navbar />
-
       <div className="max-w-[1000px] mx-auto px-4 mt-6">
 
         {/* TABS NAVIGATION */}

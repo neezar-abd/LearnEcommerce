@@ -2,7 +2,6 @@ import { createClient } from '@/utils/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { User, MapPin, Star } from 'lucide-react'
-import Navbar from '@/components/Navbar'
 import CitySearch from '@/components/CitySearch'
 import { updateProfileAction, addAddressAction, deleteAddressAction, setPrimaryAddressAction } from './actions'
 import LoadingButton from '@/components/LoadingButton'
@@ -33,8 +32,6 @@ export default async function BuyerProfilePage(props: { searchParams: Promise<{ 
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] font-sans pb-20">
-      <Navbar />
-
       <div className="max-w-[1000px] mx-auto px-4 mt-6">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-500 mb-4">
