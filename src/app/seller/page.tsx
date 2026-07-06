@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { createStoreAction, addProductAction, updateStoreCityAction } from './actions'
 import CitySearch from '@/components/CitySearch'
 import {
-  Store, Package, LayoutDashboard, LogOut, ClipboardList, TrendingUp, Settings, Navigation, Bell, Search
+  Store, Package, LayoutDashboard, LogOut, ClipboardList, TrendingUp, Settings, Navigation, Bell, Search, Wallet
 } from 'lucide-react'
 import ProductTableActions from './ProductTableActions'
 import { formatRupiah } from '@/lib/format'
