@@ -7,8 +7,8 @@ const getDatabaseUrl = () => {
   try {
     const parsedUrl = new URL(url)
     parsedUrl.searchParams.set('pgbouncer', 'true')
-    parsedUrl.searchParams.set('connection_limit', '1')
-    parsedUrl.searchParams.set('pool_timeout', '15')
+    parsedUrl.searchParams.set('connection_limit', '5')
+    parsedUrl.searchParams.set('pool_timeout', '20')
     return parsedUrl.toString()
   } catch (e) {
     const separator = url.includes('?') ? '&' : '?'
@@ -18,11 +18,11 @@ const getDatabaseUrl = () => {
     }
     if (!updatedUrl.includes('connection_limit=')) {
       const sep = updatedUrl.includes('?') ? '&' : '?'
-      updatedUrl = `${updatedUrl}${sep}connection_limit=1`
+      updatedUrl = `${updatedUrl}${sep}connection_limit=5`
     }
     if (!updatedUrl.includes('pool_timeout=')) {
       const sep = updatedUrl.includes('?') ? '&' : '?'
-      updatedUrl = `${updatedUrl}${sep}pool_timeout=15`
+      updatedUrl = `${updatedUrl}${sep}pool_timeout=20`
     }
     return updatedUrl
   }
