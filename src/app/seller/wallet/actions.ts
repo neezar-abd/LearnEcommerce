@@ -20,17 +20,22 @@ export async function requestWithdrawalAction(formData: FormData) {
   if (!profile || !profile.store) throw new Error('Store not found')
   const wallet = profile.store.wallet
 
-  if (!wallet || Number(wallet.balance) < amount) {
-    throw new Error('Insufficient balance')
+  if (!wallet) {
+    throw new Error('Store wallet not found')
   }
 
   // Use a transaction to safely deduct the balance and log the ledger
   await prisma.$transaction(async (tx) => {
-    // 1. Deduct balance
-    await tx.storeWallet.update({
+    // 1. Deduct balance first
+    const updatedWallet = await tx.storeWallet.update({
       where: { id: wallet.id },
       data: { balance: { decrement: amount } }
     })
+
+    // 2. Rollback transaction if balance goes negative
+    if (Number(updatedWallet.balance) < 0) {
+      throw new Error('Insufficient balance')
+    }
 
     // 2. Create ledger entry for WITHDRAWAL
     await tx.walletLedger.create({

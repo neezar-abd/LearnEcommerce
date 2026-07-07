@@ -84,6 +84,10 @@ export async function submitReviewAction(orderItemId: string, productId: string,
 }
 
 export async function simulatePaymentSuccessAction(transactionId: string) {
+  if (process.env.NODE_ENV !== 'development') {
+    throw new Error('This action is only allowed in development mode.')
+  }
+  
   // DEV ONLY: Simulates a successful midtrans payment
   await prisma.$transaction(async (tx) => {
     await tx.transaction.update({

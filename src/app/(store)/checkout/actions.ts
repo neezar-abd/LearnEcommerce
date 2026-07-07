@@ -155,12 +155,16 @@ export async function placeOrderAction(formData: FormData) {
           }
         })
 
-        // Decrement stock
+        // Decrement stock safely
         for (const item of storeItems) {
-          await tx.productVariant.update({
+          const updatedVariant = await tx.productVariant.update({
             where: { id: item.variant.id },
             data: { stock: { decrement: item.quantity } }
           })
+          
+          if (updatedVariant.stock < 0) {
+            throw new Error(`Stok produk "${item.variant.product.name}" habis terjual saat proses pembayaran. Silakan coba lagi.`)
+          }
         }
       }
 

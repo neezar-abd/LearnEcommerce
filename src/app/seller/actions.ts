@@ -197,8 +197,8 @@ export async function updateProductAction(formData: FormData) {
   })
 
   if (variantId) {
-    await prisma.productVariant.update({
-      where: { id: variantId },
+    await prisma.productVariant.updateMany({
+      where: { id: variantId, productId: productId },
       data: { price, stock }
     })
   }

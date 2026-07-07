@@ -86,6 +86,12 @@ export async function setPrimaryAddressAction(addressId: string) {
   const profile = await prisma.profile.findUnique({ where: { userId: user.id } })
   if (!profile) return
 
+  // Verify address belongs to user
+  const address = await prisma.address.findFirst({
+    where: { id: addressId, profileId: profile.id }
+  })
+  if (!address) return
+
   await prisma.address.updateMany({
     where: { profileId: profile.id },
     data: { isPrimary: false }

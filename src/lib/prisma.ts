@@ -1,7 +1,46 @@
 import { PrismaClient } from '@prisma/client'
 
+const getDatabaseUrl = () => {
+  const url = process.env.DATABASE_URL || ''
+  if (!url) return undefined
+
+  try {
+    const parsedUrl = new URL(url)
+    parsedUrl.searchParams.set('pgbouncer', 'true')
+    parsedUrl.searchParams.set('connection_limit', '1')
+    parsedUrl.searchParams.set('pool_timeout', '15')
+    return parsedUrl.toString()
+  } catch (e) {
+    const separator = url.includes('?') ? '&' : '?'
+    let updatedUrl = url
+    if (!updatedUrl.includes('pgbouncer=')) {
+      updatedUrl = `${updatedUrl}${separator}pgbouncer=true`
+    }
+    if (!updatedUrl.includes('connection_limit=')) {
+      const sep = updatedUrl.includes('?') ? '&' : '?'
+      updatedUrl = `${updatedUrl}${sep}connection_limit=1`
+    }
+    if (!updatedUrl.includes('pool_timeout=')) {
+      const sep = updatedUrl.includes('?') ? '&' : '?'
+      updatedUrl = `${updatedUrl}${sep}pool_timeout=15`
+    }
+    return updatedUrl
+  }
+}
+
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  const url = getDatabaseUrl()
+  return new PrismaClient(
+    url
+      ? {
+          datasources: {
+            db: {
+              url,
+            },
+          },
+        }
+      : undefined
+  )
 }
 
 declare global {

@@ -59,6 +59,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Transaction not found' }, { status: 404 })
     }
 
+    // ─────────────────────────────────────────────
+    // 3.5 Verifikasi Nominal Pembayaran
+    // ─────────────────────────────────────────────
+    // Note: Midtrans gross_amount may be a string with decimals (e.g. "50000.00")
+    if (Math.round(Number(gross_amount)) !== Math.round(Number(transaction.totalAmount))) {
+      console.error(`Gross amount mismatch: ${gross_amount} != ${transaction.totalAmount}`)
+      return NextResponse.json({ message: 'Gross amount mismatch' }, { status: 400 })
+    }
+
     if (isSuccess) {
       // Update transaction status
       await prisma.transaction.update({
@@ -192,6 +201,11 @@ export async function POST(request: NextRequest) {
       }
 
     } else if (isFailed) {
+      // Prevent duplicate processing if already failed/cancelled
+      if (transaction.paymentStatus === 'FAILED') {
+        return NextResponse.json({ message: 'Already processed as failed' })
+      }
+
       await prisma.transaction.update({
         where: { id: order_id },
         data: { paymentStatus: 'FAILED' }
