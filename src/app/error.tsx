@@ -16,9 +16,13 @@ export default function Error({
           <AlertCircle className="w-8 h-8 text-[#7C3AED]" />
         </div>
         <h2 className="text-xl font-semibold text-gray-800 mb-2">Oops! Terjadi Kesalahan</h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-gray-500 mb-2">
           Maaf, terjadi kesalahan yang tidak terduga. Silakan coba lagi.
         </p>
+        <div className="bg-red-50 text-red-600 text-xs p-3 rounded text-left mb-6 font-mono overflow-auto max-h-32">
+          {error.message || 'Unknown error occurred'}
+          {error.digest && <div className="mt-1 opacity-70">Digest: {error.digest}</div>}
+        </div>
         <div className="flex gap-3 justify-center">
           <button
             onClick={() => reset()}
