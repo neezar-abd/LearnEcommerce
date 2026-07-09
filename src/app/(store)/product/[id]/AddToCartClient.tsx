@@ -135,7 +135,7 @@ export default function AddToCartClient({ variants, productId, productName }: { 
           type="button"
           onClick={handleAddToCart}
           disabled={isLoading || isBuyNowLoading || selectedVariant.stock === 0}
-          className="w-full bg-[#148356] text-white py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:bg-[#116b47] transition-colors disabled:opacity-50"
+          className="w-full bg-[#7C3AED] text-white py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:bg-[#6D28D9] transition-colors disabled:opacity-50"
         >
           {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><span className="font-bold">+</span> Keranjang</>}
         </button>
@@ -143,7 +143,7 @@ export default function AddToCartClient({ variants, productId, productName }: { 
           type="button"
           onClick={handleBuyNow}
           disabled={isBuyNowLoading || isLoading || selectedVariant.stock === 0}
-          className="w-full border border-[#148356] text-[#148356] py-2.5 rounded-lg font-medium text-sm hover:bg-[#FAF5FF] transition-colors disabled:opacity-50"
+          className="w-full border border-[#7C3AED] text-[#7C3AED] py-2.5 rounded-lg font-medium text-sm hover:bg-[#FAF5FF] transition-colors disabled:opacity-50"
         >
           {isBuyNowLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Beli Langsung'}
         </button>
