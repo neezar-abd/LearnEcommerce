@@ -11,7 +11,13 @@ import { unstable_cache } from 'next/cache';
 
 const getCachedCategories = unstable_cache(
   async () => {
-    return prisma.category.findMany();
+    return prisma.category.findMany({
+      take: 8,
+      orderBy: [
+        { products: { _count: 'desc' } },
+        { name: 'asc' }
+      ]
+    });
   },
   ['categories-list'],
   { revalidate: 3600 }
