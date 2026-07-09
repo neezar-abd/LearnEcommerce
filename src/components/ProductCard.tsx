@@ -12,6 +12,8 @@ interface Product {
   images: { url: string }[];
   variants: ProductVariant[];
   store?: { province?: string | null; cityId?: string | null; name?: string };
+  reviews?: { rating: number }[];
+  _count?: { reviews: number };
 }
 
 interface ProductCardProps {
@@ -20,6 +22,14 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const price = Number(product.variants[0]?.price) || 0;
+  
+  const reviewCount = product._count?.reviews || 0;
+  const ratingAvg = reviewCount > 0 && product.reviews 
+    ? (product.reviews.reduce((acc, rev) => acc + rev.rating, 0) / reviewCount).toFixed(1)
+    : '0.0';
+  
+  // Using review count as a proxy for sold count since we don't have soldCount yet
+  const soldCountText = reviewCount > 0 ? `${reviewCount} terjual` : '0 terjual';
   
   return (
     <Link href={`/product/${product.id}`} className="bg-white border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-pointer rounded-xl overflow-hidden flex flex-col h-full pb-2 group">
@@ -47,9 +57,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
           <div className="flex items-center gap-1 text-gray-500 text-[11px]">
             <svg className="w-3 h-3 text-yellow-400 fill-yellow-400" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span className="text-gray-600 font-medium">5.0</span>
+            <span className="text-gray-600 font-medium">{ratingAvg}</span>
             <span className="mx-1 text-gray-300">|</span>
-            <span>10+ terjual</span>
+            <span>{soldCountText}</span>
           </div>
         </div>
       </div>

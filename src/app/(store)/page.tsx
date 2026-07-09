@@ -67,7 +67,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       include: { 
         store: true,
         variants: { take: 1 },
-        images: { take: 1 }
+        images: { take: 1 },
+        reviews: { select: { rating: true } },
+        _count: { select: { reviews: true } }
       },
       orderBy: { createdAt: 'desc' },
       take: ITEMS_PER_PAGE,

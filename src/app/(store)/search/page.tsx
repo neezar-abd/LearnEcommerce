@@ -93,7 +93,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
       include: { 
         store: { select: { name: true, province: true, cityId: true } },
         variants: { take: 1, orderBy: { price: 'asc' } },
-        images: { take: 1 }
+        images: { take: 1 },
+        reviews: { select: { rating: true } },
+        _count: { select: { reviews: true } }
       },
       orderBy: orderByQuery,
       take: ITEMS_PER_PAGE,
