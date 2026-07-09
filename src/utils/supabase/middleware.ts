@@ -27,15 +27,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const requestHeaders = new Headers(request.headers)
-  if (user) {
-    requestHeaders.set('x-user-id', user.id)
-    requestHeaders.set('x-user-email', user.email ?? '')
-  } else {
-    requestHeaders.delete('x-user-id')
-    requestHeaders.delete('x-user-email')
-  }
-
   const pathname = request.nextUrl.pathname
   const protectedRoutes = ['/seller', '/buyer', '/cart', '/checkout', '/messages']
   const isProtected = protectedRoutes.some(route => pathname.startsWith(route))
@@ -46,15 +37,5 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  })
-
-  supabaseResponse.cookies.getAll().forEach(cookie => {
-    response.cookies.set(cookie.name, cookie.value, cookie)
-  })
-
-  return response
+  return supabaseResponse
 }
