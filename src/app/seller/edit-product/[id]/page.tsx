@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { getUser } from '@/lib/session'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Store, ArrowLeft } from 'lucide-react'
@@ -8,8 +8,7 @@ import Link from 'next/link'
 export const revalidate = 0
 
 export default async function EditProductPage({ params }: { params: { id: string } }) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getUser()
   if (!user) redirect('/login')
 
   const profile = await prisma.profile.findUnique({

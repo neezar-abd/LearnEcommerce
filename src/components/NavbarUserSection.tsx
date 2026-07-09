@@ -1,34 +1,18 @@
-import { createClient } from '@/utils/supabase/server';
+import { getProfile, getCartItemCount } from '@/lib/session';
 import { ShoppingCart, Mail, User } from 'lucide-react';
-import prisma from '@/lib/prisma';
 import NotificationDropdown from './NotificationDropdown';
 import Link from 'next/link';
 
 /**
  * Async Server Component - Fetches user session, profile, and cart count.
+ * Uses React.cache() via session helpers — no duplicate DB/auth calls.
  * Rendered inside a Suspense boundary in Navbar so it never blocks page streaming.
  */
 export default async function NavbarUserSection() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  let userProfile = null;
-  if (user) {
-    userProfile = await prisma.profile.findUnique({
-      where: { userId: user.id }
-    });
-  }
-
-  let cartItemCount = 0;
-  if (userProfile) {
-    const cart = await prisma.cart.findUnique({
-      where: { profileId: userProfile.id },
-      include: { items: true }
-    });
-    if (cart) {
-      cartItemCount = cart.items.reduce((acc, item) => acc + item.quantity, 0);
-    }
-  }
+  const [userProfile, cartItemCount] = await Promise.all([
+    getProfile(),
+    getCartItemCount(),
+  ]);
 
   return (
     <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">

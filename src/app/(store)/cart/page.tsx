@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { getUser } from '@/lib/session'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import CartClient from './CartClient'
@@ -6,8 +6,7 @@ import CartClient from './CartClient'
 export const revalidate = 0
 
 export default async function CartPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getUser()
   if (!user) redirect('/login')
 
   const profile = await prisma.profile.findUnique({

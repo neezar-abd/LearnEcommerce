@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { getUser } from '@/lib/session'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { User, MapPin, Star } from 'lucide-react'
@@ -14,8 +14,7 @@ export const revalidate = 0
 export default async function BuyerProfilePage(props: { searchParams: Promise<{ tab?: string }> }) {
   const searchParams = await props.searchParams;
   const tab = searchParams?.tab || 'profile';
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getUser()
   if (!user) redirect('/login')
 
   const profile = await prisma.profile.findUnique({

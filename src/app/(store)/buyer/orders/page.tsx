@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { getUser } from '@/lib/session'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Package } from 'lucide-react'
@@ -9,8 +9,7 @@ export const revalidate = 0
 
 export default async function BuyerOrdersPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const { tab = 'ALL' } = await searchParams
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getUser()
 
   if (!user) redirect('/login')
 
