@@ -5,7 +5,7 @@ import { Store, ArrowLeft } from 'lucide-react'
 import { updateProductAction } from '../../actions'
 import Link from 'next/link'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function EditProductPage({ params }: { params: { id: string } }) {
   const user = await getUser()

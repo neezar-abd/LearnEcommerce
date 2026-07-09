@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Store, User } from 'lucide-react'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function BuyerChatPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const supabase = await createClient()

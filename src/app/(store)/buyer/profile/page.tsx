@@ -9,7 +9,7 @@ import AddressCard from './AddressCard'
 import { formatRupiah } from '@/lib/format'
 import Link from 'next/link'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function BuyerProfilePage(props: { searchParams: Promise<{ tab?: string }> }) {
   const searchParams = await props.searchParams;

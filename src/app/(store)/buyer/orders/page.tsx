@@ -5,7 +5,7 @@ import { Package } from 'lucide-react'
 import Link from 'next/link'
 import OrderCard from './OrderCard'
 
-export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function BuyerOrdersPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const { tab = 'ALL' } = await searchParams
