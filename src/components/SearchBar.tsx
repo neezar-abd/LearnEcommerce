@@ -21,7 +21,7 @@ function SearchInput() {
 
 export default function SearchBar() {
   return (
-    <form action="/" method="GET" className="flex items-center w-full bg-white border border-gray-300 rounded-md overflow-hidden focus-within:border-[#7C3AED] focus-within:ring-1 focus-within:ring-[#7C3AED] focus-within:shadow-md transition-all duration-300">
+    <form action="/search" method="GET" className="flex items-center w-full bg-white border border-gray-300 rounded-md overflow-hidden focus-within:border-[#7C3AED] focus-within:ring-1 focus-within:ring-[#7C3AED] focus-within:shadow-md transition-all duration-300">
       <div className="pl-3 text-gray-400">
         <Search className="w-5 h-5" />
       </div>
