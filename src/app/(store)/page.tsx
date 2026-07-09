@@ -88,7 +88,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         
         {/* Banner Section */}
         <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <div className="w-full md:w-2/3 h-[180px] md:h-auto md:max-h-[300px] overflow-hidden rounded-2xl shadow-sm relative">
+          <div className="w-full md:w-2/3 h-[180px] md:h-[300px] overflow-hidden rounded-2xl shadow-sm relative">
             <Image 
               src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80" 
               alt="Promo Banner Main" 
@@ -98,8 +98,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
               sizes="(max-width: 768px) 100vw, 66vw"
             />
           </div>
-          <div className="w-full md:w-1/3 flex flex-row md:flex-col gap-4 md:max-h-[300px]">
-            <div className="h-[120px] md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1 relative">
+          <div className="w-full md:w-1/3 flex flex-row md:flex-col gap-4 h-[120px] md:h-[300px]">
+            <div className="h-full md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1 relative">
               <Image 
                 src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80" 
                 alt="Promo 1" 
@@ -108,7 +108,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                 sizes="(max-width: 768px) 50vw, 33vw"
               />
             </div>
-            <div className="h-[120px] md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1 relative">
+            <div className="h-full md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1 relative">
               <Image 
                 src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" 
                 alt="Promo 2" 
