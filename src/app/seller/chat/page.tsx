@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { User, Store, Bell } from 'lucide-react'
 import SellerBottomNav from '../SellerBottomNav'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function SellerChatPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const supabase = await createClient()

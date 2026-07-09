@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import CheckoutClient from './CheckoutClient'
 import Link from 'next/link'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function CheckoutPage() {
   const user = await getUser()
