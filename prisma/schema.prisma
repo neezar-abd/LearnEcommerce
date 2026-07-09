@@ -49,6 +49,8 @@ model Address {
   updatedAt DateTime @updatedAt
 
   orders Order[]
+
+  @@index([profileId])
 }
 
 // ==========================================
@@ -113,6 +115,8 @@ model Category {
   icon String?
 
   products Product[]
+
+  @@index([parentId])
 }
 
 model Product {
@@ -135,6 +139,9 @@ model Product {
   variants ProductVariant[]
   images   ProductImage[]
   reviews  ProductReview[]
+
+  @@index([storeId])
+  @@index([categoryId])
 }
 
 model ProductVariant {
@@ -149,6 +156,8 @@ model ProductVariant {
 
   cartItems  CartItem[]
   orderItems OrderItem[]
+
+  @@index([productId])
 }
 
 model ProductImage {
@@ -159,6 +168,8 @@ model ProductImage {
   url       String
   isPrimary Boolean @default(false)
   sortOrder Int     @default(0)
+
+  @@index([productId])
 }
 
 model ProductReview {
@@ -177,6 +188,9 @@ model ProductReview {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([profileId])
 }
 
 // ==========================================
@@ -203,6 +217,9 @@ model CartItem {
 
   quantity Int     @default(1)
   selected Boolean @default(true) // For checkout selection
+
+  @@index([cartId])
+  @@index([variantId])
 }
 
 // ==========================================
@@ -223,6 +240,8 @@ model Transaction {
   updatedAt DateTime @updatedAt
 
   orders Order[]
+
+  @@index([profileId])
 }
 
 // Order is split per Store. If I buy from 3 stores, 1 Transaction = 3 Orders
@@ -253,6 +272,10 @@ model Order {
   updatedAt DateTime @updatedAt
 
   orderItems OrderItem[]
+
+  @@index([transactionId])
+  @@index([storeId])
+  @@index([addressId])
 }
 
 model OrderItem {
@@ -269,6 +292,9 @@ model OrderItem {
   quantity    Int
 
   review ProductReview?
+
+  @@index([orderId])
+  @@index([variantId])
 }
 
 // ==========================================
@@ -302,6 +328,9 @@ model Message {
   isRead         Boolean      @default(false)
   
   createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
+  @@index([senderProfileId])
 }
 
 // ==========================================
@@ -320,4 +349,6 @@ model Notification {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([profileId])
 }

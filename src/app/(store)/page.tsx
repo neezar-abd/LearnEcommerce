@@ -7,6 +7,15 @@ import {
 import prisma from '@/lib/prisma';
 import { formatRupiah } from '@/lib/format';
 import Link from 'next/link'
+import { unstable_cache } from 'next/cache';
+
+const getCachedCategories = unstable_cache(
+  async () => {
+    return prisma.category.findMany();
+  },
+  ['categories-list'],
+  { revalidate: 3600 }
+);
 
 
 
@@ -35,8 +44,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const categoryFilter = typeof categoryId === 'string' ? categoryId : undefined;
   const currentPage = typeof page === 'string' ? Math.max(1, parseInt(page)) : 1;
   
-  const categories = await prisma.category.findMany();
-
   // Build "where" filter based on search query and category
   const whereFilter: any = {};
   if (searchQuery) {
@@ -46,20 +53,23 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     whereFilter.categoryId = categoryFilter;
   }
 
-  const totalCount = await prisma.product.count({ where: whereFilter });
-  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+  const [categories, totalCount, products] = await Promise.all([
+    getCachedCategories(),
+    prisma.product.count({ where: whereFilter }),
+    prisma.product.findMany({
+      where: whereFilter,
+      include: { 
+        store: true,
+        variants: { take: 1 },
+        images: { take: 1 }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: ITEMS_PER_PAGE,
+      skip: (currentPage - 1) * ITEMS_PER_PAGE,
+    })
+  ]);
 
-  const products = await prisma.product.findMany({
-    where: whereFilter,
-    include: { 
-      store: true,
-      variants: { take: 1 },
-      images: { take: 1 }
-    },
-    orderBy: { createdAt: 'desc' },
-    take: ITEMS_PER_PAGE,
-    skip: (currentPage - 1) * ITEMS_PER_PAGE,
-  });
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
 
 
@@ -78,26 +88,33 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         
         {/* Banner Section */}
         <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <div className="w-full md:w-2/3 h-[180px] md:h-auto md:max-h-[300px] overflow-hidden rounded-2xl shadow-sm">
-            <img 
+          <div className="w-full md:w-2/3 h-[180px] md:h-auto md:max-h-[300px] overflow-hidden rounded-2xl shadow-sm relative">
+            <Image 
               src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80" 
               alt="Promo Banner Main" 
-              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              fill
+              className="object-cover transition-transform duration-700 hover:scale-105"
+              priority
+              sizes="(max-width: 768px) 100vw, 66vw"
             />
           </div>
           <div className="w-full md:w-1/3 flex flex-row md:flex-col gap-4 md:max-h-[300px]">
-            <div className="h-[120px] md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1">
-              <img 
+            <div className="h-[120px] md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1 relative">
+              <Image 
                 src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80" 
                 alt="Promo 1" 
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                fill
+                className="object-cover transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 50vw, 33vw"
               />
             </div>
-            <div className="h-[120px] md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1">
-              <img 
+            <div className="h-[120px] md:h-[calc(50%-0.5rem)] overflow-hidden rounded-2xl shadow-sm flex-1 relative">
+              <Image 
                 src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" 
                 alt="Promo 2" 
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                fill
+                className="object-cover transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 50vw, 33vw"
               />
             </div>
           </div>
@@ -142,7 +159,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             {products.length > 0 ? products.map((product) => (
                <Link href={`/product/${product.id}`} key={product.id} className="bg-white border border-gray-100 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all cursor-pointer rounded-xl overflow-hidden flex flex-col h-full block pb-2">
                 <div className="aspect-square bg-gray-50 w-full relative overflow-hidden shrink-0">
-                  <img src={product.images[0]?.url || 'https://via.placeholder.com/300'} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
+                  <Image src={product.images[0]?.url || 'https://via.placeholder.com/300'} alt={product.name} fill sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw" className="object-cover" />
                 </div>
                 <div className="px-3 py-2 flex flex-col flex-1">
                   <h3 className="text-[13px] text-gray-800 mb-0.5 truncate">{product.name}</h3>
