@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="px-3 py-2 flex flex-col flex-1">
         <h3 className="text-[13px] text-gray-800 mb-0.5 line-clamp-2 leading-tight min-h-[32px]">{product.name}</h3>
-        <div className="text-base font-bold text-[#EE4D2D] mb-1.5 mt-1">
+        <div className="text-base font-bold text-[#7C3AED] mb-1.5 mt-1">
           {formatRupiah(price)}
         </div>
         

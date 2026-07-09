@@ -64,9 +64,9 @@ export default function SearchFilterSidebar({ categories, provinces }: SearchFil
                 type="checkbox" 
                 checked={currentProvince === prov}
                 onChange={() => updateFilters('province', currentProvince === prov ? '' : prov)}
-                className="w-4 h-4 text-[#EE4D2D] border-gray-300 rounded focus:ring-[#EE4D2D] cursor-pointer"
+                className="w-4 h-4 text-[#7C3AED] border-gray-300 rounded focus:ring-[#7C3AED] cursor-pointer"
               />
-              <span className="text-sm text-gray-600 group-hover:text-[#EE4D2D] transition-colors">{prov}</span>
+              <span className="text-sm text-gray-600 group-hover:text-[#7C3AED] transition-colors">{prov}</span>
             </label>
           ))}
         </div>
@@ -84,9 +84,9 @@ export default function SearchFilterSidebar({ categories, provinces }: SearchFil
                 type="checkbox" 
                 checked={currentCategory === cat.id}
                 onChange={() => updateFilters('categoryId', currentCategory === cat.id ? '' : cat.id)}
-                className="w-4 h-4 text-[#EE4D2D] border-gray-300 rounded focus:ring-[#EE4D2D] cursor-pointer"
+                className="w-4 h-4 text-[#7C3AED] border-gray-300 rounded focus:ring-[#7C3AED] cursor-pointer"
               />
-              <span className="text-sm text-gray-600 group-hover:text-[#EE4D2D] transition-colors line-clamp-1">{cat.name}</span>
+              <span className="text-sm text-gray-600 group-hover:text-[#7C3AED] transition-colors line-clamp-1">{cat.name}</span>
             </label>
           ))}
         </div>
@@ -103,7 +103,7 @@ export default function SearchFilterSidebar({ categories, provinces }: SearchFil
             placeholder="Rp MIN" 
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-sm outline-none focus:border-[#EE4D2D] hide-arrows"
+            className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-sm outline-none focus:border-[#7C3AED] hide-arrows"
           />
           <span className="text-gray-400">-</span>
           <input 
@@ -111,12 +111,12 @@ export default function SearchFilterSidebar({ categories, provinces }: SearchFil
             placeholder="Rp MAKS" 
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-sm outline-none focus:border-[#EE4D2D] hide-arrows"
+            className="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-sm outline-none focus:border-[#7C3AED] hide-arrows"
           />
         </div>
         <button 
           onClick={handlePriceApply}
-          className="w-full py-2 bg-[#EE4D2D] text-white text-xs font-semibold rounded-sm hover:bg-[#D73211] transition-colors uppercase"
+          className="w-full py-2 bg-[#7C3AED] text-white text-xs font-semibold rounded-sm hover:bg-[#6D28D9] transition-colors uppercase"
         >
           Terapkan
         </button>

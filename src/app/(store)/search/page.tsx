@@ -153,7 +153,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
               {totalPages > 1 && (
                 <div className="mt-10 flex justify-center items-center gap-2 pb-8">
                   {currentPage > 1 && (
-                    <Link href={buildPageUrl(currentPage - 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#EE4D2D] hover:text-[#EE4D2D] transition-colors shadow-sm">
+                    <Link href={buildPageUrl(currentPage - 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#7C3AED] hover:text-[#7C3AED] transition-colors shadow-sm">
                       &laquo; Sebelumnya
                     </Link>
                   )}
@@ -165,15 +165,15 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
                         href={buildPageUrl(p)}
                         className={`w-10 h-10 flex items-center justify-center rounded-sm text-sm border shadow-sm transition-colors ${
                           p === currentPage
-                            ? 'bg-[#EE4D2D] text-white border-[#EE4D2D] font-semibold'
-                            : 'bg-white border-gray-300 text-gray-600 hover:border-[#EE4D2D] hover:text-[#EE4D2D]'
+                            ? 'bg-[#7C3AED] text-white border-[#7C3AED] font-semibold'
+                            : 'bg-white border-gray-300 text-gray-600 hover:border-[#7C3AED] hover:text-[#7C3AED]'
                         }`}
                       >
                         {p}
                       </Link>
                     ))}
                   {currentPage < totalPages && (
-                    <Link href={buildPageUrl(currentPage + 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#EE4D2D] hover:text-[#EE4D2D] transition-colors shadow-sm">
+                    <Link href={buildPageUrl(currentPage + 1)} className="px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-sm text-sm hover:border-[#7C3AED] hover:text-[#7C3AED] transition-colors shadow-sm">
                       Selanjutnya &raquo;
                     </Link>
                   )}
@@ -187,7 +187,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
               </div>
               <h3 className="text-xl font-semibold text-gray-800 mb-2">Produk Tidak Ditemukan</h3>
               <p className="text-gray-500 max-w-sm mx-auto mb-8">Maaf, tidak ada produk yang sesuai dengan filter atau kata kunci Anda.</p>
-              <Link href="/" className="px-8 py-3 bg-[#EE4D2D] text-white rounded-md font-medium hover:bg-[#D73211] shadow-sm transition-all hover:shadow hover:-translate-y-0.5">
+              <Link href="/" className="px-8 py-3 bg-[#7C3AED] text-white rounded-md font-medium hover:bg-[#6D28D9] shadow-sm transition-all hover:shadow hover:-translate-y-0.5">
                 Kembali ke Beranda
               </Link>
             </div>

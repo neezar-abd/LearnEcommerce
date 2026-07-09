@@ -140,9 +140,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           <div className="flex items-end justify-between mb-4 mt-8">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Rekomendasi Terbaru</h2>
-              <div className="w-12 h-1 bg-[#EE4D2D] rounded-full mt-1.5"></div>
+              <div className="w-12 h-1 bg-[#7C3AED] rounded-full mt-1.5"></div>
             </div>
-            <Link href="/search" className="text-sm font-medium text-[#EE4D2D] hover:underline">Lihat Semua</Link>
+            <Link href="/search" className="text-sm font-medium text-[#7C3AED] hover:underline">Lihat Semua</Link>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">

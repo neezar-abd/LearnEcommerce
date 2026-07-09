@@ -51,7 +51,7 @@ export default function SearchResultHeader({ query, totalCount, matchedStore }: 
               <div className="text-sm text-gray-500">{matchedStore._count.products} Produk</div>
             </div>
           </div>
-          <Link href={`/store/${matchedStore.id}`} className="px-6 py-2 bg-white border border-[#EE4D2D] text-[#EE4D2D] hover:bg-red-50 rounded-sm font-medium transition-colors">
+          <Link href={`/store/${matchedStore.id}`} className="px-6 py-2 bg-white border border-[#7C3AED] text-[#7C3AED] hover:bg-purple-50 rounded-sm font-medium transition-colors">
             Kunjungi Toko
           </Link>
         </div>
@@ -61,7 +61,7 @@ export default function SearchResultHeader({ query, totalCount, matchedStore }: 
       {query && (
         <div className="flex items-center gap-2 mb-4 text-gray-700 text-lg">
           <Info className="w-5 h-5 text-gray-400" />
-          <span>Hasil pencarian untuk '<strong className="text-[#EE4D2D] font-medium">{query}</strong>'</span>
+          <span>Hasil pencarian untuk '<strong className="text-[#7C3AED] font-medium">{query}</strong>'</span>
         </div>
       )}
 
@@ -75,7 +75,7 @@ export default function SearchResultHeader({ query, totalCount, matchedStore }: 
               onClick={() => updateSort(tab.id)}
               className={`px-6 py-2 border-r border-gray-100 last:border-0 flex-1 md:flex-none transition-colors ${
                 currentSort === tab.id
-                  ? 'bg-[#EE4D2D] text-white font-medium'
+                  ? 'bg-[#7C3AED] text-white font-medium'
                   : 'bg-white text-gray-700 hover:bg-gray-50'
               }`}
             >
@@ -86,7 +86,7 @@ export default function SearchResultHeader({ query, totalCount, matchedStore }: 
         
         {/* Total info on the right */}
         <div className="ml-auto text-gray-500 text-sm hidden md:block">
-          <span className="text-[#EE4D2D] font-medium">{totalCount}</span> produk ditemukan
+          <span className="text-[#7C3AED] font-medium">{totalCount}</span> produk ditemukan
         </div>
       </div>
     </div>
